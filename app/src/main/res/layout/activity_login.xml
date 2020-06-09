@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".LoginActivity"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="192dp"
+        android:layout_height="117dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="36dp"
+        android:src="@drawable/ic_launcher_foreground" />
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        android:hint="Enter your phone number"
+        android:background="@drawable/thin_border"
+        android:padding="@dimen/defalutPadding"
+        android:layout_margin="@dimen/defalutMargin" />
+
+    <LinearLayout
+        android:id="@+id/otpContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OTP Verification"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/defalutTextSize" />
+            <TextView
+                android:id="@+id/tvCountDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="59s"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="40dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <in.aabhasjindal.otptextview.OtpTextView
+            android:id="@+id/inputOTP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            app:height="40dp"
+            app:width="40dp"
+            app:bar_enabled="true"
+            app:bar_height="2dp"
+            app:length="6"
+            app:otp_text_size="24dp"
+            app:bar_active_color="@color/colorPrimary"
+            app:bar_success_color="@color/green" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/defalutPadding"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="@dimen/defalutMargin"
+        android:layout_marginStart="@dimen/defalutMargin"
+        android:text="Send OTP"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/button_background"
+        android:elevation="5dp"/>
+</LinearLayout>

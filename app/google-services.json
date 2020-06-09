@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1083471528864",
+    "firebase_url": "https://flygrocer-9f99d.firebaseio.com",
+    "project_id": "flygrocer-9f99d",
+    "storage_bucket": "flygrocer-9f99d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083471528864:android:e96997201cd72c62c39ac5",
+        "android_client_info": {
+          "package_name": "com.titos.flygrocer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083471528864-cn7prkhgo3nkem6crjrsbcmjqj4d8clj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.titos.flygrocer",
+            "certificate_hash": "ea564649f0e4191375e982b80a1c5e729bce6972"
+          }
+        },
+        {
+          "client_id": "1083471528864-uvkb6ghgd4mq70dsr5v893lmsfeatjfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeSloMflQlj_LHOMWOBw3ev4SKdTZY2G4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083471528864-uvkb6ghgd4mq70dsr5v893lmsfeatjfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

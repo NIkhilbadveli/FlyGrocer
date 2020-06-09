@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="defalutPadding">10dp</dimen>
+    <dimen name="defalutMargin">16dp</dimen>
+    <dimen name="defalutTextSize">14sp</dimen>
+</resources>
