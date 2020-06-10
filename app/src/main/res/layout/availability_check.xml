@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:padding="@dimen/defalutPadding">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select your city and Enter your name"
+        android:textSize="16sp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="@dimen/defalutMargin"/>
+
+    <Spinner
+        android:id="@+id/spinnerLiveCities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/defalutPadding"
+        android:layout_marginBottom="@dimen/defalutMargin"
+        android:layout_marginTop="@dimen/defalutMargin"/>
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Enter your full name"
+        android:background="@drawable/thin_border"
+        android:padding="@dimen/defalutPadding"
+        android:layout_margin="@dimen/defalutMargin" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background"
+        android:layout_marginBottom="@dimen/defalutMargin"
+        android:layout_marginTop="@dimen/defalutMargin"/>
+</LinearLayout>

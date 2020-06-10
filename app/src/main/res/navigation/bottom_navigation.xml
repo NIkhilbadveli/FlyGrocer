@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/shopFragment">
+
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.titos.flygrocer.ShopFragment"
+        android:label="Shop"
+        tools:layout="@layout/fragment_shop" >
+    </fragment>
+    <fragment
+        android:id="@+id/bagFragment"
+        android:name="com.titos.flygrocer.BagFragment"
+        android:label="Bag"
+        tools:layout="@layout/fragment_bag" >
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.titos.flygrocer.ProfileFragment"
+        android:label="My Account"
+        tools:layout="@layout/fragment_profile" >
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.titos.flygrocer.FavouritesFragment"
+        android:label="Favourties"
+        tools:layout="@layout/fragment_favourites" >
+    </fragment>
+</navigation>
