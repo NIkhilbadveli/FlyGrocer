@@ -54,8 +54,6 @@ class LoginActivity : AppCompatActivity() {
                 tvCountDownTimer.paintFlags = tvCountDownTimer.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 tvCountDownTimer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
                 tvCountDownTimer.text = "Resend OTP"
-
-                Log.d("tekloon", "onFinish")
             }
         }
 
@@ -180,16 +178,32 @@ class LoginActivity : AppCompatActivity() {
         val spinnerLiveCities = dialog.findViewById<Spinner>(R.id.spinnerLiveCities)
         val inputName = dialog.findViewById<EditText>(R.id.editTextName)
 
-        //Saving user data
-        databaseRef.child("userData").child(user.uid).child("phoneNumber").setValue(phoneNum)
-
         spinnerLiveCities.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, liveCities)
 
-        dialog.show()
+        databaseRef.child("userData").child(user.uid).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()){
+                    startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                    finish()
+                }
+                else{
+                    //Saving user data
+                    databaseRef.child("userData").child(user.uid).child("phoneNumber").setValue(phoneNum)
+                    dialog.show()
+                }
+            }
+
+        })
+
+
         nextButton.setOnClickListener {
             if (spinnerLiveCities.selectedItem!=null && inputName.text.isNotEmpty()){
                 databaseRef.child("userData").child(user.uid).child("userName").setValue(inputName.text.toString())
-                databaseRef.child("userData").child(user.uid).child("city").setValue(spinnerLiveCities.selectedItem.toString())
+                databaseRef.child("userData").child(user.uid).child("cityName").setValue(spinnerLiveCities.selectedItem.toString())
                 dialog.dismiss()
                 startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                 finish()
