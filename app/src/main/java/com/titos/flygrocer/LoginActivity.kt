@@ -78,14 +78,24 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 Log.d(TAG, "onVerificationCompleted:$credential")
+                auth.signInWithCredential(credential)
+                    .addOnCompleteListener(this@LoginActivity) { task ->
+                        if (task.isSuccessful) {
+                            checkAvailability()
+                        } else {
 
-                checkAvailability()
+                            Log.w(TAG, "signInWithCredential:failure", task.exception)
+                            if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                            }
+                        }
+                    }
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
 
                 Log.w(TAG, "onVerificationFailed", e)
-
+                Toast.makeText(this@LoginActivity, e.toString(),Toast.LENGTH_LONG).show()
                 if (e is FirebaseAuthInvalidCredentialsException) {
                     Log.w(TAG, "InvalidCredentials", e)
                 } else if (e is FirebaseTooManyRequestsException) {

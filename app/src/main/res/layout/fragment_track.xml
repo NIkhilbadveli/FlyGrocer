@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Tracking"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/defalutMargin"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="@dimen/defalutMargin"
+        android:layout_marginEnd="@dimen/defalutMargin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/defalutMargin">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
+            android:layout_height="wrap_content"
+            android:text="Packed"
+            android:textColor="@color/black"
+            android:drawableTop="@drawable/ic_baseline_radio_button_checked_24"
+            android:textAlignment="center"
+            android:layout_margin="5dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.33"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_baseline_arrow_right_alt_24"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_baseline_check_24"
+            android:textAlignment="center"
+            android:text="On the way"
+            android:textColor="@color/black"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_baseline_radio_button_checked_24"
+            android:textAlignment="center"
+            android:text="Delivered"
+            android:textColor="@color/black"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+</LinearLayout>

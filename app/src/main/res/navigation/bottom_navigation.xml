@@ -10,12 +10,18 @@
         android:name="com.titos.flygrocer.HomeFragment"
         android:label="Shop"
         tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_shopFragment"
+            app:destination="@id/shopFragment" />
     </fragment>
     <fragment
         android:id="@+id/bagFragment"
         android:name="com.titos.flygrocer.BagFragment"
         android:label="Bag"
         tools:layout="@layout/fragment_bag" >
+        <action
+            android:id="@+id/action_bagFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -29,4 +35,36 @@
         android:label="Favourties"
         tools:layout="@layout/fragment_favourites" >
     </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.titos.flygrocer.ProductDetailFragment"
+        android:label="Favourties"
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_productDetailsFragment_to_bagFragment"
+            app:destination="@id/bagFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.titos.flygrocer.ShopFragment"
+        android:label="Favourties"
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_shopFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.titos.flygrocer.CheckoutFragment"
+        android:label="CheckoutFragment"
+        tools:layout="@layout/fragment_checkout">
+        <action
+            android:id="@+id/action_checkoutFragment_to_trackingFragment"
+            app:destination="@id/trackingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackingFragment"
+        android:name="com.titos.flygrocer.TrackingFragment"
+        android:label="TrackingFragment"
+        tools:layout="@layout/fragment_track"/>
 </navigation>

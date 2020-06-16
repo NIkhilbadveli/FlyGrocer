@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -20,5 +22,13 @@ class MainActivity : AppCompatActivity() {
 
         navController.saveState()
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
+    }
+
+    class ViewModelForList : ViewModel() {
+        val finalList = MutableLiveData<ArrayList<String>>()
+
+        fun sendList(list: ArrayList<String>){
+            finalList.value = list
+        }
     }
 }

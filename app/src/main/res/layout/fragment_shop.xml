@@ -21,6 +21,7 @@
                 android:drawableStart="@drawable/ic_baseline_filter_list_24"
                 android:layout_margin="@dimen/defalutMargin"/>
             <TextView
+                android:id="@+id/sortingButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Price - High to Low"

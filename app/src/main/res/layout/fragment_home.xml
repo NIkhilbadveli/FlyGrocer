@@ -8,7 +8,8 @@
 
     <SearchView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.06"
         android:layout_margin="@dimen/defalutPadding"
         android:queryHint="Search for products, brands and more"
         android:iconifiedByDefault="false"
@@ -17,7 +18,8 @@
 
     <com.denzcoskun.imageslider.ImageSlider
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
         android:id="@+id/bannerSlider"
         app:corner_radius="10"
         app:auto_cycle="true"
@@ -25,11 +27,16 @@
         app:period="1000"
         android:layout_margin="@dimen/defalutPadding">
     </com.denzcoskun.imageslider.ImageSlider>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.58"
+        android:orientation="vertical">
     <androidx.cardview.widget.CardView
         android:id="@+id/superGrocerContainer"
         android:layout_width="match_parent"
-        android:layout_height="120sp"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
         android:layout_margin="@dimen/defalutPadding"
         app:cardCornerRadius="8sp"
         >
@@ -59,7 +66,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/greenGrocerContainer"
         android:layout_width="match_parent"
-        android:layout_height="120sp"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
         android:layout_margin="@dimen/defalutPadding"
         app:cardCornerRadius="8sp"
         >
@@ -89,7 +97,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/foodGrocerContainer"
         android:layout_width="match_parent"
-        android:layout_height="120sp"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
         android:layout_margin="@dimen/defalutPadding"
         app:cardCornerRadius="8sp"
         >
@@ -114,11 +123,12 @@
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
+    </LinearLayout>
     <Button
         android:id="@+id/uploadButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.06"
         android:text="Upload Product List"
         android:textColor="@color/black"
         android:drawableEnd="@drawable/ic_baseline_camera_alt_24"

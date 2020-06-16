@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BagFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tvMyBag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Bag"
+        android:layout_margin="@dimen/defalutMargin"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        />
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/tvMyBag"
+        android:layout_above="@id/priceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_bag"/>
+
+    <RelativeLayout
+        android:id="@+id/priceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/checkoutButton"
+        android:layout_marginStart="@dimen/defalutMargin"
+        android:layout_marginEnd="@dimen/defalutMargin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Total amount" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:text="\u20B9 100"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/defalutMargin"
+        android:text="checkout"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white"
+        />
+</RelativeLayout>

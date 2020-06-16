@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
 
@@ -19,9 +20,6 @@ class HomeFragment : Fragment() {
     ): View? {
         val layoutView = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val shopFragment = ShopFragment()
-        val fragmentManager = activity?.supportFragmentManager!!
-
         val imageList = ArrayList<SlideModel>()
         imageList.add(SlideModel(R.drawable.banner1))
         imageList.add(SlideModel(R.drawable.banner2))
@@ -33,26 +31,17 @@ class HomeFragment : Fragment() {
 
         layoutView.findViewById<CardView>(R.id.superGrocerContainer).setOnClickListener {
 
-                fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_container,shopFragment,"ShopFragment")
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_homeFragment_to_shopFragment)
         }
 
         layoutView.findViewById<CardView>(R.id.foodGrocerContainer).setOnClickListener {
 
-            fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_container,shopFragment,"ShopFragment")
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_homeFragment_to_shopFragment)
         }
 
         layoutView.findViewById<CardView>(R.id.greenGrocerContainer).setOnClickListener {
 
-            fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_container,shopFragment,"ShopFragment")
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_homeFragment_to_shopFragment)
         }
 
         return layoutView

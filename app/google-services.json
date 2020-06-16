@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1083471528864-70f2t84vva3b7b4s5mkh7h3c3ktaodvh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.titos.flygrocer",
+            "certificate_hash": "4e0e96ce54ee61a74a28809524f5b10ebc084478"
+          }
+        },
+        {
           "client_id": "1083471528864-cn7prkhgo3nkem6crjrsbcmjqj4d8clj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
