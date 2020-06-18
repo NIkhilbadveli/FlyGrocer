@@ -34,8 +34,6 @@ class ShopFragment : Fragment() {
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
         val productList = ArrayList<ProductItem>()
 
-        val viewModel: MainActivity.ViewModelForList by viewModels()
-
         rvProductList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = groupAdapter
@@ -44,14 +42,17 @@ class ShopFragment : Fragment() {
         onItemClick = {item ->
 
             val str = ArrayList<String>()
+
             str.add(item.imageUrl)
             str.add(item.companyName)
             str.add(item.itemName)
             str.add(item.itemPrice)
+            str.add(item.barcode)
 
-            viewModel.sendList(str)
+            val bundle = Bundle()
+            bundle.putStringArrayList("list",str)
 
-            findNavController().navigate(R.id.action_shopFragment_to_productDetailsFragment)
+            findNavController().navigate(R.id.action_shopFragment_to_productDetailsFragment, bundle)
         }
 
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -65,7 +66,7 @@ class ShopFragment : Fragment() {
                     val companyName = barcode.child("Brand").value.toString()
                     val itemName = barcode.child("name").value.toString()
                     val itemPrice = barcode.child("price").value.toString()
-                    productList.add(ProductItem(url, companyName, itemName, itemPrice, onItemClick))
+                    productList.add(ProductItem(barcode.key!!,url, companyName, itemName, itemPrice, onItemClick))
                 }
                 groupAdapter.addAll(productList)
             }

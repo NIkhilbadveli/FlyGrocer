@@ -16,7 +16,12 @@ import androidx.lifecycle.Observer
 
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProductDetailFragment: Fragment() {
 
@@ -33,21 +38,22 @@ class ProductDetailFragment: Fragment() {
         val itemPrice = layoutView.findViewById<TextView>(R.id.tvItemPrice)
         val addButton = layoutView.findViewById<Button>(R.id.addToCartButton)
 
-        val viewModel: MainActivity.ViewModelForList by viewModels()
-        var strList: ArrayList<String>
+        val user = FirebaseAuth.getInstance().currentUser!!
+        val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
+        val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy hh:mm:ss", Locale.US)
 
-        viewModel.finalList.observe(viewLifecycleOwner, Observer { 
-            strList = it
-            Picasso.get().load(strList[0]).into(ivProduct)
-            companyName.text = strList[1]
-            itemName.text = strList[2]
-            itemPrice.text = "\u20B9 ${strList[3]}"
-        })
+        val strList = arguments?.getStringArrayList("list")!!
+        val barcode = strList[4]
+
+        Picasso.get().load(strList[0]).into(ivProduct)
+        companyName.text = strList[1]
+        itemName.text = strList[2]
+        itemPrice.text = "\u20B9 ${strList[3]}"
 
         var addedToCart = false
         addButton.setOnClickListener{
             if (!addedToCart){
-                //Add to the actual cart items here
+                userRef.child("bagItems").child(simpleDateFormat.format(Date())).setValue(barcode)
                 Snackbar.make(requireView(), "Added to bag", Snackbar.LENGTH_SHORT).show()
                 addButton.text = "View Bag"
                 addedToCart = true

@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/grocery"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addToBagFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_outline_shopping_basket_24"

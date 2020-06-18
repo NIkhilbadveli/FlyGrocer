@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/inventory_imageview"
+            android:id="@+id/ivProduct"
             android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_weight="0.2"
@@ -26,7 +26,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
+            android:layout_weight="0.5"
             android:orientation="vertical"
             android:gravity="center"
             android:padding="5dp">
@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="Product Name "
+                android:textAlignment="center"
                 android:layout_marginBottom="@dimen/defalutPadding"/>
 
             <LinearLayout
@@ -59,7 +60,7 @@
                     android:layout_gravity="center"/>
 
                 <EditText
-                    android:id="@+id/item_quantity"
+                    android:id="@+id/itemQty"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -83,11 +84,11 @@
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/remove_inventory_item_button"
+                android:id="@+id/moreOptionsMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_three_dot_24"

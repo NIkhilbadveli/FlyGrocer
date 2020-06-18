@@ -23,6 +23,12 @@ import com.google.firebase.database.*
 import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
+    companion object {
+        init {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        }
+    }
+
     private val TAG = "FlyGrocerTag"
     private lateinit var auth: FirebaseAuth
     private lateinit var storedVerificationId: String

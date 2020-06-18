@@ -16,6 +16,7 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBagList"
         android:layout_below="@id/tvMyBag"
         android:layout_above="@id/priceContainer"
         android:layout_width="match_parent"
@@ -38,12 +39,13 @@
             android:text="Total amount" />
 
         <TextView
+            android:id="@+id/totalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:text="\u20B9 100"
+            android:text="\u20B9 0"
             />
     </RelativeLayout>
 
