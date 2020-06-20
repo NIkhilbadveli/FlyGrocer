@@ -66,7 +66,8 @@ class FavItem(val barcode: String, var presentinBag: Boolean, var addedTime: Str
                 if(!added){
                     Toast.makeText(containerView.context,"Added to Bag", Toast.LENGTH_SHORT).show()
                     addedTime = simpleDateFormat.format(Date())
-                    userRef.child("bagItems").child(addedTime).setValue(barcode)
+                    userRef.child("bagItems").child(addedTime).child("barcode").setValue(barcode)
+                    userRef.child("bagItems").child(addedTime).child("qty").setValue(1)
                     fab.setImageResource(R.drawable.ic_baseline_shopping_basket_24)
                     added = true
                 }

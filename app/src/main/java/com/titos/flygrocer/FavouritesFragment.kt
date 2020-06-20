@@ -22,8 +22,8 @@ import com.xwray.groupie.GroupieViewHolder
 
 class FavouritesFragment : Fragment() {
     private lateinit var onItemClick: (FavItem)->Unit
-    private lateinit var productList: ArrayList<FavItem>
-    private lateinit var groupAdapter: GroupAdapter<GroupieViewHolder>
+    private var productList = ArrayList<FavItem>()
+    private var groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -31,7 +31,6 @@ class FavouritesFragment : Fragment() {
         val layoutView =  inflater.inflate(R.layout.fragment_favourites, container, false)
 
         val rvFav = layoutView.findViewById<RecyclerView>(R.id.rvFavourites)
-        val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
@@ -52,7 +51,7 @@ class FavouritesFragment : Fragment() {
         }
 
         rvFav.apply {
-             layoutManager = LinearLayoutManager(context)
+             layoutManager = GridLayoutManager(requireContext(),2)
              adapter = groupAdapter
         }
 
@@ -62,12 +61,11 @@ class FavouritesFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                for(barcode in p0.children){
-                     productList.add(FavItem(barcode.value.toString(),false, "00-00-0000 00:00:00", onItemClick))
+                for(timeStamp in p0.children){
+                     productList.add(FavItem(timeStamp.value.toString(),false, "00-00-0000 00:00:00", onItemClick))
                 }
                 setData()
             }
-
         })
 
         return layoutView
@@ -84,8 +82,8 @@ class FavouritesFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 for(timeStamp in p0.children){
-                    productList.first { it.barcode == timeStamp.value.toString() }.addedTime = timeStamp.key!!
-                    productList.first { it.barcode == timeStamp.value.toString() }.presentinBag = true
+                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }.addedTime = timeStamp.key!!
+                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }.presentinBag = true
                 }
                 groupAdapter.addAll(productList)
             }
