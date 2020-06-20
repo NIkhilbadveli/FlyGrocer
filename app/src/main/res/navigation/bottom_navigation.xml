@@ -59,12 +59,21 @@
         android:label="CheckoutFragment"
         tools:layout="@layout/fragment_checkout">
         <action
-            android:id="@+id/action_checkoutFragment_to_trackingFragment"
-            app:destination="@id/trackingFragment" />
+            android:id="@+id/action_checkoutFragment_to_successFragment"
+            app:destination="@id/successFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackingFragment"
         android:name="com.titos.flygrocer.TrackingFragment"
         android:label="TrackingFragment"
         tools:layout="@layout/fragment_track"/>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.titos.flygrocer.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success">
+        <action
+            android:id="@+id/action_successFragment_to_trackingFragment"
+            app:destination="@id/trackingFragment" />
+    </fragment>
 </navigation>

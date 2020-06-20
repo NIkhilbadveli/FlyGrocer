@@ -3,12 +3,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select delivery address"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_margin="@dimen/defalutMargin"/>
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#2020-06-20/KT1E"
+        android:layout_margin="@dimen/defalutMargin"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.94"
+        android:layout_weight="1"
         android:src="@mipmap/ic_launcher"
         android:layout_margin="@dimen/defalutMargin"/>
+
     <Button
         android:id="@+id/trackButton"
         android:layout_width="match_parent"

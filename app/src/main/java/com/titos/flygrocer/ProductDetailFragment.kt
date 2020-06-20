@@ -1,6 +1,7 @@
 package com.titos.flygrocer
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +30,7 @@ import kotlin.collections.ArrayList
 
 class ProductDetailFragment: Fragment() {
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,12 +57,17 @@ class ProductDetailFragment: Fragment() {
         itemName.text = strList[2]
         itemPrice.text = "\u20B9 ${strList[3]}"
 
-        var addedToCart = false
+        var addedToCart = strList[5]!!.toBoolean()
+        if (addedToCart)
+            addButton.text = "View in Bag"
+
         addButton.setOnClickListener{
             if (!addedToCart){
-                userRef.child("bagItems").child(simpleDateFormat.format(Date())).setValue(barcode)
+                addedTime = simpleDateFormat.format(Date())
+                userRef.child("bagItems").child(addedTime).child("barcode").setValue(barcode)
+                userRef.child("bagItems").child(addedTime).child("qty").setValue(1)
                 Snackbar.make(requireView(), "Added to bag", Snackbar.LENGTH_SHORT).show()
-                addButton.text = "View Bag"
+                addButton.text = "View in Bag"
                 addedToCart = true
             }
             else {
@@ -65,19 +75,36 @@ class ProductDetailFragment: Fragment() {
             }
 
         }
-        var added = false
-        var addToFav =false
+
+        var addToFav = false
+
+        //Checking if the current barcode is present in favItems
+        userRef.child("favItems").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for(timeStamp in p0.children){
+                    if (barcode == timeStamp.value.toString()) {
+                        addToFav = true
+                        favIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    }
+                }
+
+            }
+        })
+
         favIcon.setOnClickListener {
             if(!addToFav){
                 addedTime = simpleDateFormat.format(Date())
-                userRef.child("My Favs").child(addedTime).setValue(barcode)
+                userRef.child("favItems").child(addedTime).setValue(barcode)
                 Snackbar.make(requireView(),"Added to My favourits",Snackbar.LENGTH_SHORT).show()
                 favIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
                 addToFav = true
             }
             else{
-
-                userRef.child("My Favs").child(addedTime).removeValue()
+                userRef.child("favItems").child(addedTime).removeValue()
                 Snackbar.make(requireView(), "Removed..", Snackbar.LENGTH_SHORT).show()
                 favIcon.setImageResource(R.drawable.ic_outline_favorite_border_24)
                 addToFav = false

@@ -1,9 +1,9 @@
 package com.titos.flygrocer
 
-import android.widget.ImageView
+import android.annotation.SuppressLint
+import android.view.View
+import android.widget.*
 
-import android.widget.TextView
-import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -16,44 +16,74 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ProductItem(val barcode: String, val imageUrl: String, val companyName: String, val itemName: String, val itemPrice: String,
-val onItemClick: ((ProductItem)-> Unit)): Item() {
+class ProductItem(var addedTime:String, val barcode: String, val imageUrl: String, val companyName: String, val itemName: String, val itemPrice: String,
+val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
+    var itemQuantity = "1"
+    @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int){
         viewHolder.apply {
 
             val ivProduct = containerView.findViewById<ImageView>(R.id.ivProduct)
             val user = FirebaseAuth.getInstance().currentUser!!
             val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
+            val addToBagButton = containerView.findViewById<Button>(R.id.addToCartButton)
+            val plusMinusContainer = containerView.findViewById<LinearLayout>(R.id.plusMinusContainer)
+            val tvItemPrice = containerView.findViewById<TextView>(R.id.tvItemPrice)
+            val editTextQty = containerView.findViewById<EditText>(R.id.itemQty)
+
+            //Setting visibilities
+            editTextQty.setText(itemQuantity)
+
+            containerView.findViewById<ImageButton>(R.id.moreOptionsMenu).visibility = View.GONE
+            if (presentinBag) {
+                plusMinusContainer.visibility = View.VISIBLE
+                addToBagButton.visibility = View.GONE
+            }
+            else{
+                plusMinusContainer.visibility = View.GONE
+                addToBagButton.visibility = View.VISIBLE
+            }
 
             val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy hh:mm:ss", Locale.US)
-            var added = false
-            var addedTime = "00-00-0000 00:00:00"
 
             containerView.findViewById<TextView>(R.id.tvItemName).text = itemName
             containerView.findViewById<TextView>(R.id.tvCompanyName).text = companyName
-            containerView.findViewById<TextView>(R.id.tvItemPrice).text = itemPrice
+            tvItemPrice.text = "\u20B9 $itemPrice"
 
             ivProduct.setOnClickListener { onItemClick.invoke(this@ProductItem) }
             Picasso.get().load(imageUrl).into(ivProduct)
 
-            val fab = containerView.findViewById<FloatingActionButton>(R.id.addToBagFab)
-            fab.setOnClickListener {
-                if(!added){
-                    Toast.makeText(containerView.context,"Added to Bag", Toast.LENGTH_SHORT).show()
-                    addedTime = simpleDateFormat.format(Date())
-                    userRef.child("bagItems").child(addedTime).setValue(barcode)
-                    fab.setImageResource(R.drawable.ic_baseline_shopping_basket_24)
-                    added = true
+            //Handling adding to bag
+            addToBagButton.setOnClickListener {
+                Toast.makeText(containerView.context,"Added to Bag", Toast.LENGTH_SHORT).show()
+                addedTime = simpleDateFormat.format(Date())
+                userRef.child("bagItems").child(addedTime).child("barcode").setValue(barcode)
+                userRef.child("bagItems").child(addedTime).child("qty").setValue(1)
+                plusMinusContainer.visibility = View.VISIBLE
+                addToBagButton.visibility = View.GONE
+                presentinBag = true
+            }
+
+            //Handling minus for quantity
+            containerView.findViewById<FloatingActionButton>(R.id.subtractQuantityFab).setOnClickListener {
+                val currentQty = editTextQty.text.toString().toInt()
+                if (currentQty>1){
+                    val updatedQty = currentQty - 1
+                    editTextQty.setText(updatedQty.toString())
+                    tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
+                    userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
                 }
-                else {
-                    Toast.makeText(containerView.context,"Removed from Bag", Toast.LENGTH_SHORT).show()
-                    userRef.child("bagItems").child(addedTime).removeValue()
-                    fab.setImageResource(R.drawable.ic_outline_shopping_basket_24)
-                    added = false
-                }
+            }
+
+            //Handling plus for quantity
+            containerView.findViewById<FloatingActionButton>(R.id.addQuantityFab).setOnClickListener {
+                val updatedQty = editTextQty.text.toString().toInt() + 1
+                editTextQty.setText(updatedQty.toString())
+                tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
+                userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
             }
         }
     }
 
-    override fun getLayout(): Int = R.layout.item_product
+    override fun getLayout(): Int = R.layout.item_bag
 }

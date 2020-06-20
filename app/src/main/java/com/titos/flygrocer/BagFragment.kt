@@ -33,7 +33,7 @@ class BagFragment : Fragment() {
         val tvTotal = layoutView.findViewById<TextView>(R.id.totalAmount)
         val rvProductList = layoutView.findViewById<RecyclerView>(R.id.rvBagList)
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
-        val productList = ArrayList<BagItem>()
+
         val user = FirebaseAuth.getInstance().currentUser!!
         val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
 
@@ -44,7 +44,9 @@ class BagFragment : Fragment() {
 
         val checkoutButton = layoutView.findViewById<Button>(R.id.checkoutButton)
         checkoutButton.setOnClickListener{
-            findNavController().navigate(R.id.action_bagFragment_to_checkoutFragment)
+            val bundle = Bundle()
+            bundle.putInt("orderTotal", tvTotal.text.toString().split(" ").last().toInt())
+            findNavController().navigate(R.id.action_bagFragment_to_checkoutFragment, bundle)
         }
 
         userRef.child("bagItems").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -53,13 +55,14 @@ class BagFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                for(barcode in p0.children){
-                    productList.add(BagItem(barcode.value.toString(),0, tvTotal))
+                if(p0.exists()){
+                    for(timeStamp in p0.children){
+                        val barcode = timeStamp.child("barcode").value.toString()
+                        val qty = timeStamp.child("qty").value.toString()
+                        groupAdapter.add(BagItem(timeStamp.key!!,barcode,qty,tvTotal, groupAdapter))
+                    }
                 }
-                groupAdapter.addAll(productList)
-
             }
-
         })
 
         return layoutView

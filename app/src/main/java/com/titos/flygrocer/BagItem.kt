@@ -3,23 +3,28 @@ package com.titos.flygrocer
 import android.annotation.SuppressLint
 import android.view.MenuItem
 import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 
 
-class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item() {
+class BagItem(val addedTime: String, val barcode: String, val itemQty: String, val tvTotal: TextView, val adapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>): Item() {
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int){
         viewHolder.apply {
 
             val ivProduct = containerView.findViewById<ImageView>(R.id.ivProduct)
-
+            val user = FirebaseAuth.getInstance().currentUser!!
+            val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
             val productRef = FirebaseDatabase.getInstance().reference.child("/productData")
 
             val tvItemName = containerView.findViewById<TextView>(R.id.tvItemName)
@@ -30,9 +35,7 @@ class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item(
             var unitPrice = 0
 
             //Adding initial quantity of 1
-            editTextQty.setText("1")
-
-            val initialTotal = tvTotal.text.toString().split(" ").last().toInt()
+            editTextQty.setText(itemQty)
 
             productRef.child(barcode).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
@@ -40,6 +43,7 @@ class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item(
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
+                    val initialTotal = tvTotal.text.toString().split(" ").last().toInt()
                     val url = p0.child("URL").value.toString()
                     val companyName = p0.child("Brand").value.toString()
                     val itemName = p0.child("name").value.toString()
@@ -48,9 +52,8 @@ class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item(
                     Picasso.get().load(url).into(ivProduct)
                     tvCompanyName.text = companyName
                     tvItemName.text = itemName
-                    tvItemPrice.text = itemPrice
-                    price = itemPrice.toInt()
-                    unitPrice = price
+                    tvItemPrice.text = "\u20B9 $itemPrice"
+                    unitPrice = itemPrice.toInt()
                     tvTotal.text =  "\u20B9 ${(initialTotal + unitPrice)}"
                 }
             })
@@ -61,9 +64,8 @@ class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item(
                 val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
                 if (currentQty>1){
                     val updatedQty = currentQty - 1
-                    price = updatedQty*unitPrice
                     editTextQty.setText(updatedQty.toString())
-                    tvItemPrice.text = price.toString()
+                    tvItemPrice.text = (updatedQty*unitPrice).toString()
                     tvTotal.text = "\u20B9 ${(currentTotal - unitPrice)}"
                 }
             }
@@ -72,9 +74,8 @@ class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item(
             containerView.findViewById<FloatingActionButton>(R.id.addQuantityFab).setOnClickListener {
                 val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
                 val updatedQty = editTextQty.text.toString().toInt() + 1
-                price = updatedQty*unitPrice
                 editTextQty.setText(updatedQty.toString())
-                tvItemPrice.text = price.toString()
+                tvItemPrice.text = (updatedQty*unitPrice).toString()
                 tvTotal.text = "\u20B9 ${(currentTotal + unitPrice)}"
             }
 
@@ -84,6 +85,12 @@ class BagItem(val barcode: String, var price: Int, val tvTotal: TextView): Item(
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.deleteOption -> {
+                        val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
+                        val price = tvItemPrice.text.toString().split(" ").last().toInt()
+                        adapter.removeGroupAtAdapterPosition(adapterPosition)
+                        Toast.makeText(containerView.context,"Removed from Bag", Toast.LENGTH_SHORT).show()
+                        userRef.child("bagItems").child(addedTime).removeValue()
+                        tvTotal.text = "\u20B9 ${(currentTotal - price)}"
                     }
                 }
                 false

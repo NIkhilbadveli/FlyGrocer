@@ -76,16 +76,16 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!--<Button
-        android:id="@+id/how_to_use"
+    <Button
+        android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="How to Use App"
+        android:text="Logout"
         android:textSize="18sp"
         android:textColor="@color/white"
         android:background="@drawable/button_background"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:padding="5dp"/>-->
+        android:padding="5dp"/>
 </RelativeLayout>

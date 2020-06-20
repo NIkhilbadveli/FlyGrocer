@@ -48,6 +48,7 @@
                 android:layout_marginBottom="@dimen/defalutPadding"/>
 
             <LinearLayout
+                android:id="@+id/plusMinusContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -80,6 +81,17 @@
                     app:fabSize="mini"
                     android:layout_gravity="center"/>
             </LinearLayout>
+            <Button
+                android:id="@+id/addToCartButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:visibility="gone"
+                android:textSize="12sp"
+                android:text="Add to Bag"
+                android:textColor="@color/white"
+                android:background="@drawable/button_background"/>
         </LinearLayout>
 
         <RelativeLayout
