@@ -67,7 +67,7 @@
                 android:layout_marginBottom="15dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_profile"
+                android:id="@+id/rvProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/item_profile"

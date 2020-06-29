@@ -28,6 +28,12 @@
         android:name="com.titos.flygrocer.ProfileFragment"
         android:label="My Account"
         tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
@@ -38,8 +44,8 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.titos.flygrocer.ProductDetailFragment"
-        android:label="Favourties"
-        tools:layout="@layout/fragment_favourites" >
+        android:label="Product Detail"
+        tools:layout="@layout/fragment_product_detail" >
         <action
             android:id="@+id/action_productDetailsFragment_to_bagFragment"
             app:destination="@id/bagFragment" />
@@ -75,5 +81,33 @@
         <action
             android:id="@+id/action_successFragment_to_trackingFragment"
             app:destination="@id/trackingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="AddressFragment"
+        android:label="AddressFragment"
+        tools:layout="@layout/fragment_address">
+        <action
+            android:id="@+id/action_addressFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAddressFragment"
+        android:name="EditAddressFragment"
+        android:label="EditAddressFragment"
+        tools:layout="@layout/fragment_edit_address"/>
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="OrderDetailsFragment"
+        android:label="OrderDetailsFragment"
+        tools:layout="@layout/fragment_order_details"/>
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="OrdersFragment"
+        android:label="OrdersFragment"
+        tools:layout="@layout/fragment_orders">
+        <action
+            android:id="@+id/action_ordersFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
     </fragment>
 </navigation>

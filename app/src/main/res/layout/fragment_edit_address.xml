@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Address"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:layout_margin="@dimen/defalutMargin"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+
+    <EditText
+        android:id="@+id/etFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding"
+        android:hint="Full name"
+        android:inputType="textPersonName"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/thin_border"
+        />
+    <EditText
+        android:id="@+id/etMobileNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding"
+        android:hint="Mobile Number"
+        android:ems="10"
+        android:layout_gravity="center"
+        android:inputType="phone"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/thin_border"
+        />
+    <EditText
+        android:id="@+id/etPincode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding"
+        android:hint="Pin code"
+        android:maxLength="6"
+        android:inputType="number"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/thin_border"
+        />
+    <EditText
+        android:id="@+id/etLine1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding"
+        android:hint="Address Line1"
+        android:inputType="textPostalAddress"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/thin_border"
+        />
+    <EditText
+        android:id="@+id/etLine2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding"
+        android:hint="Address Line2"
+        android:inputType="textPostalAddress"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/thin_border"
+        />
+    <EditText
+        android:id="@+id/etLandMark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defalutMargin"
+        android:padding="@dimen/defalutPadding"
+        android:hint="Landmark"
+        android:inputType="text"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/thin_border"
+        />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addAddressButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:text="Add Address"
+        android:textColor="@color/colorAccent"
+        android:gravity="center"
+        android:background="@drawable/button_background"
+        />
+</LinearLayout>
