@@ -6,71 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select delivery address"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_margin="@dimen/defalutMargin"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddresses"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select delivery address"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_margin="@dimen/defalutMargin"/>
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="7dp"
-            android:padding="10dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/defalutPadding">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username,"
-                        android:layout_margin="5dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Address line 1"
-                        android:layout_margin="5dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Address line 2"
-                        android:layout_margin="5dp"/>
-                </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    android:layout_margin="5dp"
-                    android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-        <TextView
-            android:id="@+id/tvAddNewAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add New address"
-            android:textColor="#00f"
-            android:drawableStart="@drawable/ic_add_black_24dp"
-            android:drawablePadding="@dimen/defalutPadding"
-            android:textSize="16sp"
-            android:layout_margin="@dimen/defalutMargin" />
-    </LinearLayout>
+        tools:listitem="@layout/item_address"/>
+
+    <TextView
+        android:id="@+id/tvAddNewAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New address"
+        android:textColor="#00f"
+        android:drawableStart="@drawable/ic_add_black_24dp"
+        android:drawablePadding="@dimen/defalutPadding"
+        android:textSize="16sp"
+        android:layout_margin="@dimen/defalutMargin" />
 
     <RelativeLayout
         android:layout_width="match_parent"

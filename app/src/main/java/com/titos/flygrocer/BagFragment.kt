@@ -2,12 +2,14 @@ package com.titos.flygrocer
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,12 +45,17 @@ class BagFragment : Fragment() {
         }
 
         val checkoutButton = layoutView.findViewById<Button>(R.id.checkoutButton)
+        val bundle = Bundle()
         checkoutButton.setOnClickListener{
-            val bundle = Bundle()
             bundle.putInt("orderTotal", tvTotal.text.toString().split(" ").last().toInt())
-            findNavController().navigate(R.id.action_bagFragment_to_checkoutFragment, bundle)
+            if (tvTotal.text.toString().split(" ").last().toInt()>0)
+                findNavController().navigate(R.id.action_bagFragment_to_checkoutFragment, bundle)
+            else
+                Toast.makeText(activity,"Please add at least 1 item", Toast.LENGTH_LONG).show()
         }
 
+        val barcodeList = ArrayList<String>()
+        val qtyList = ArrayList<String>()
         userRef.child("bagItems").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -59,8 +66,13 @@ class BagFragment : Fragment() {
                     for(timeStamp in p0.children){
                         val barcode = timeStamp.child("barcode").value.toString()
                         val qty = timeStamp.child("qty").value.toString()
+
                         groupAdapter.add(BagItem(timeStamp.key!!,barcode,qty,tvTotal, groupAdapter))
+                        barcodeList.add(barcode)
+                        qtyList.add(qty)
                     }
+                    bundle.putStringArrayList("barcodeList", barcodeList)
+                    bundle.putStringArrayList("qtyList", qtyList)
                 }
             }
         })

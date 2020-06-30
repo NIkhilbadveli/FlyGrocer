@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_checkoutFragment_to_successFragment"
             app:destination="@id/successFragment" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackingFragment"

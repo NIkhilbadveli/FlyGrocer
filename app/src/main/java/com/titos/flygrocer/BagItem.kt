@@ -17,7 +17,8 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 
 
-class BagItem(val addedTime: String, val barcode: String, val itemQty: String, val tvTotal: TextView, val adapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>): Item() {
+class BagItem(val addedTime: String, val barcode: String, val itemQty: String,
+              val tvTotal: TextView, val adapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>): Item() {
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int){
         viewHolder.apply {

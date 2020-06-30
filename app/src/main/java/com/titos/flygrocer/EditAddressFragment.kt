@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -48,12 +49,13 @@ class EditAddressFragment : Fragment() {
         val btn = layoutView.findViewById<Button>(R.id.addAddressButton)
         btn.setOnClickListener {
             if (etFullName.text.isNotEmpty() && etMobileNumber.text.isNotEmpty() && etLine1.text.isNotEmpty() && etPincode.text.isNotEmpty()){
-                userRef.child("addresses").child(addressId.toString()).child("name").setValue(etFullName.toString())
-                userRef.child("addresses").child(addressId.toString()).child("mobileNumber").setValue(etMobileNumber.toString())
-                userRef.child("addresses").child(addressId.toString()).child("pincode").setValue(etPincode.toString())
-                userRef.child("addresses").child(addressId.toString()).child("line1").setValue(etLine1.toString())
-                userRef.child("addresses").child(addressId.toString()).child("line2").setValue(etLine2.toString())
-                userRef.child("addresses").child(addressId.toString()).child("landmark").setValue(etLandMark.toString())
+                userRef.child("addresses").child(addressId.toString()).child("name").setValue(etFullName.text.toString())
+                userRef.child("addresses").child(addressId.toString()).child("mobileNumber").setValue(etMobileNumber.text.toString())
+                userRef.child("addresses").child(addressId.toString()).child("pincode").setValue(etPincode.text.toString())
+                userRef.child("addresses").child(addressId.toString()).child("line1").setValue(etLine1.text.toString())
+                userRef.child("addresses").child(addressId.toString()).child("line2").setValue(etLine2.text.toString())
+                userRef.child("addresses").child(addressId.toString()).child("landmark").setValue(etLandMark.text.toString())
+                findNavController().navigateUp()
             }
             else
                 Toast.makeText(requireContext(),"Please enter all the required fields", Toast.LENGTH_SHORT).show()
@@ -62,6 +64,7 @@ class EditAddressFragment : Fragment() {
         //If edit button is clicked in any one of the already existing addresses
         val id = arguments?.getInt("addressId")
         if (id != null){
+            addressId = id
             btn.text = "Save"
             userRef.child("addresses").child(id.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {

@@ -19,7 +19,7 @@ class SuccessFragment : Fragment() {
 
         val orderId = arguments?.getString("orderId")!!
 
-        layoutView.findViewById<TextView>(R.id.tvOrderId).text = orderId
+        layoutView.findViewById<TextView>(R.id.tvOrderId).text = "#${orderId}"
 
         layoutView.findViewById<Button>(R.id.trackButton).setOnClickListener {
             findNavController().navigate(R.id.action_successFragment_to_trackingFragment)

@@ -1,3 +1,4 @@
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,14 +43,15 @@ class OrdersFragment : Fragment() {
             findNavController().navigate(R.id.action_ordersFragment_to_orderDetailsFragment, bundle)
         }
 
-        userRef.child("orders").addListenerForSingleValueEvent(object : ValueEventListener {
+        val cityName = activity?.getSharedPreferences("userData",Context.MODE_PRIVATE)?.getString("cityName","DefaultCity")!!
+        userRef.child("allOrders").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 for (key in p0.children){
-                    groupAdapter.add(OrderItem(key.value.toString(), openOrderDetails))
+                    groupAdapter.add(OrderItem(key.value.toString(),cityName, openOrderDetails))
                 }
             }
         })

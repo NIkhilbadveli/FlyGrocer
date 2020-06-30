@@ -9,8 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -21,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.razorpay.PaymentResultListener
 import com.squareup.picasso.Picasso
+import io.github.pierry.progress.Progress
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,6 +34,10 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
     private lateinit var userRef: DatabaseReference
     private lateinit var orderRef: DatabaseReference
     private lateinit var sharedPref: SharedPreferences
+    private val barcodeList = ArrayList<String>()
+    private val qtyList = ArrayList<String>()
+    private var orderTotal = 0
+    private var address = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,25 +60,50 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                val userName = p0.child("userName").value.toString()
                 val cityName = p0.child("cityName").value.toString()
-                val mobileNumber = p0.child("mobileNumber").value.toString()
+                val mobileNumber = p0.child("phoneNumber").value.toString()
                 sharedPref.edit().apply {
+                    putString("userName", userName)
                     putString("cityName", cityName)
-                    putString("mobileNumber", mobileNumber)
+                    putString("phoneNumber", mobileNumber)
                     apply()
                 }
             }
         })
 
+        val model = ViewModelProvider(this).get(ViewModelForList::class.java)
 
+        model.orderTotal.observe(this) { total ->
+            orderTotal = total
+        }
+
+        model.barcodeList.observe(this) { list ->
+            barcodeList.addAll(list)
+        }
+
+        model.qtyList.observe(this) { list ->
+            qtyList.addAll(list)
+        }
+
+        model.address.observe(this) { str ->
+            address = str
+        }
     }
 
     class ViewModelForList : ViewModel() {
-        val finalList = MutableLiveData<ArrayList<String>>()
-
-        fun sendList(list: ArrayList<String>){
-            finalList.value = list
+        var barcodeList = MutableLiveData<ArrayList<String>>()
+        var qtyList = MutableLiveData<ArrayList<String>>()
+        fun sendList(listA: ArrayList<String>, listB: ArrayList<String>){
+            barcodeList.value = listA
+            qtyList.value = listB
         }
+
+        var orderTotal = MutableLiveData<Int>()
+        fun sendOrderTotal(total: Int){orderTotal.value = total}
+
+        var address = MutableLiveData<String>()
+        fun sendAddress(string: String){address.value = string}
     }
 
     override fun onPaymentError(errorCode: Int, response: String?) {
@@ -82,42 +115,50 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     override fun onPaymentSuccess(razorpayPaymentId: String?) {
-
-        val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US)
-        val cityName = sharedPref.getString("cityName","DefaultCity")!!.toUpperCase(Locale.ROOT)
-        val shortCode = cityName.take(3)
-
-        orderRef.child(cityName).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                //var orderSuffix = 1
-                //if (p0.exists())
-                    val orderSuffix = p0.childrenCount.toInt() + 1
-
-                val orderId = shortCode + "%05d".format(orderSuffix)
-                orderRef.child(cityName).child(orderId).child("orderAmount").setValue(100)
-                orderRef.child(cityName).child(orderId).child("orderTime").setValue(simpleDateFormat.format(Date()))
-                orderRef.child(cityName).child(orderId).child("razorPayId").setValue(razorpayPaymentId)
-                orderRef.child(cityName).child(orderId).child("orderQty").setValue(1)
-
-                //Save only the order number into userdata
-                userRef.child("allOrders").child(userRef.push().key!!).setValue(orderId)
-
-                //Clearing bag
-                userRef.child("bagItems").removeValue()
-
-                val bundle = Bundle()
-                bundle.putString("orderId", orderId)
-                findNavController(R.id.nav_host_fragment_container).navigate(R.id.action_checkoutFragment_to_successFragment, bundle)
-            }
-        })
-
         try{
+            val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US)
+            val cityName = sharedPref.getString("cityName","DefaultCity")!!.toUpperCase(Locale.ROOT)
+            val shortCode = cityName.take(3)
+            val totalQty = qtyList.sumBy { it.toInt() }
 
+            orderRef.child(cityName).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val orderSuffix = p0.childrenCount.toInt() + 1
+                    val orderId = shortCode + "%05d".format(orderSuffix)
+                    orderRef.child(cityName).child(orderId).child("orderTotal").setValue(orderTotal)
+                    orderRef.child(cityName).child(orderId).child("orderTime").setValue(simpleDateFormat.format(Date()))
+                    orderRef.child(cityName).child(orderId).child("razorPayId").setValue(razorpayPaymentId)
+                    orderRef.child(cityName).child(orderId).child("orderQty").setValue(totalQty)
+                    orderRef.child(cityName).child(orderId).child("orderStatus").setValue("placed")
+                    orderRef.child(cityName).child(orderId).child("deliveryAddress").setValue(address)
+                    orderRef.child(cityName).child(orderId).child("userId").setValue(userRef.key)
+
+                    for (i in 0 until barcodeList.size){
+                        val key = userRef.push().key!!
+                        orderRef.child(cityName).child(orderId).child("orderedItems/${key}/barcode")
+                            .setValue(barcodeList[i])
+                        orderRef.child(cityName).child(orderId).child("orderedItems/${key}/qty")
+                            .setValue(qtyList[i])
+                    }
+
+                    //Save only the order number into userdata
+                    userRef.child("allOrders").child(userRef.push().key!!).setValue(orderId)
+
+                    //Clearing bag
+                    userRef.child("bagItems").removeValue()
+
+                    val bundle = Bundle()
+                    bundle.putString("orderId", orderId)
+                    findNavController(R.id.nav_host_fragment_container).navigate(R.id.action_checkoutFragment_to_successFragment, bundle)
+                    findNavController(R.id.nav_host_fragment_container).popBackStack()
+                }
+            })
         }catch (e: Exception){
+            Toast.makeText(this,"Payment failed: $e", Toast.LENGTH_LONG).show()
             Log.e(ContentValues.TAG,"Exception in onPaymentSuccess", e)
         }
     }

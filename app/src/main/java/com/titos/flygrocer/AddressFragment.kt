@@ -3,6 +3,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,14 @@ class AddressFragment : Fragment() {
         val openEditAddress = { addressId: Int ->
             val bundle = Bundle()
             bundle.putInt("addressId", addressId)
-            findNavController().navigate(R.id.action_ordersFragment_to_orderDetailsFragment, bundle)
+            findNavController().navigate(R.id.action_addressFragment_to_editAddressFragment, bundle)
+        }
+
+        var lastSelectedPosition = 0
+        val handleRadioButton = { pos: Int ->
+            rvAddresses.getChildAt(lastSelectedPosition).findViewById<RadioButton>(R.id.radioAddress).isChecked = false
+            rvAddresses.getChildAt(pos).findViewById<RadioButton>(R.id.radioAddress).isChecked = true
+            lastSelectedPosition = pos
         }
 
         userRef.child("addresses").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -52,7 +60,8 @@ class AddressFragment : Fragment() {
                     val addressLine3: String = id.child("line2").value.toString() + " " + id.child("pincode").value.toString()
                     val mobileNumber: String = id.child("mobileNumber").value.toString()
 
-                    groupAdapter.add(AddressItem(id.key!!.toInt(), addressLine1, addressLine2, addressLine3, mobileNumber, openEditAddress, groupAdapter))
+                    groupAdapter.add(AddressItem(id.key!!.toInt(), addressLine1, addressLine2, addressLine3,
+                        mobileNumber, openEditAddress, groupAdapter, false, handleRadioButton))
                 }
             }
         })

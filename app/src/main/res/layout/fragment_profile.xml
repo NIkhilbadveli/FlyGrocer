@@ -16,7 +16,7 @@
         android:contentDescription="Profile Background"/>
 
     <agency.tango.android.avatarview.views.AvatarView
-        android:id="@+id/profile_avatar"
+        android:id="@+id/profileAvatar"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="60dp"
@@ -34,7 +34,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="-40dp"
-        android:layout_below="@+id/profile_avatar"
+        android:layout_below="@+id/profileAvatar"
         android:padding="5dp"
         app:cardElevation="7dp"
         app:cardCornerRadius="20dp">
@@ -46,25 +46,34 @@
             android:layout_gravity="center">
 
             <TextView
-                android:id="@+id/store_name"
+                android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="General Store"
+                android:text="User Name"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="40dp"/>
 
             <TextView
-                android:id="@+id/profile_name"
+                android:id="@+id/tvCityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User Name"
-                android:textStyle="italic"
+                android:text="Proddatur"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="15dp"/>
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/tvMobileNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+91 1234567890"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvProfile"
