@@ -31,10 +31,9 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
             val tvItemPrice = containerView.findViewById<TextView>(R.id.tvItemPrice)
             val editTextQty = containerView.findViewById<EditText>(R.id.itemQty)
 
-            //Setting visibilities
             editTextQty.setText(itemQuantity)
 
-            containerView.findViewById<ImageButton>(R.id.moreOptionsMenu).visibility = View.GONE
+            //Setting visibilities
             if (presentinBag) {
                 plusMinusContainer.visibility = View.VISIBLE
                 addToBagButton.visibility = View.GONE
@@ -50,6 +49,7 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
             containerView.findViewById<TextView>(R.id.tvCompanyName).text = companyName
             tvItemPrice.text = "\u20B9 $itemPrice"
 
+            containerView.findViewById<RelativeLayout>(R.id.rlContainer).setOnClickListener { onItemClick.invoke(this@ProductItem) }
             ivProduct.setOnClickListener { onItemClick.invoke(this@ProductItem) }
             Picasso.get().load(imageUrl).into(ivProduct)
 
@@ -59,9 +59,10 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
                 addedTime = simpleDateFormat.format(Date())
                 userRef.child("bagItems").child(addedTime).child("barcode").setValue(barcode)
                 userRef.child("bagItems").child(addedTime).child("qty").setValue(1)
-                plusMinusContainer.visibility = View.VISIBLE
-                addToBagButton.visibility = View.GONE
+                /*plusMinusContainer.visibility = View.VISIBLE
+                addToBagButton.visibility = View.GONE*/
                 presentinBag = true
+                notifyChanged()
             }
 
             //Handling minus for quantity
@@ -72,6 +73,8 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
                     editTextQty.setText(updatedQty.toString())
                     tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
                     userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
+                    itemQuantity = updatedQty.toString()
+                    notifyChanged()
                 }
             }
 
@@ -81,9 +84,11 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
                 editTextQty.setText(updatedQty.toString())
                 tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
                 userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
+                itemQuantity = updatedQty.toString()
+                notifyChanged()
             }
         }
     }
 
-    override fun getLayout(): Int = R.layout.item_bag
+    override fun getLayout(): Int = R.layout.item_product
 }

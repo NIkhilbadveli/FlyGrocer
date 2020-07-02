@@ -61,10 +61,12 @@ class FavouritesFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                for(timeStamp in p0.children){
-                     productList.add(FavItem(timeStamp.value.toString(),false, "00-00-0000 00:00:00", onItemClick))
+                if (p0.exists()){
+                    for(timeStamp in p0.children){
+                         productList.add(FavItem(timeStamp.value.toString(),false, "00-00-0000 00:00:00", onItemClick))
+                    }
+                    setData()
                 }
-                setData()
             }
         })
 

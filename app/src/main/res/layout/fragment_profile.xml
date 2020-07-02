@@ -6,14 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/profile_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_profile_bg"
         android:scaleType="centerCrop"
-        android:contentDescription="Profile Background"/>
+        android:contentDescription="Profile Background"/>-->
 
     <agency.tango.android.avatarview.views.AvatarView
         android:id="@+id/profileAvatar"

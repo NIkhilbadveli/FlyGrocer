@@ -2,9 +2,9 @@ package com.titos.flygrocer
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -20,11 +20,13 @@ import com.google.firebase.database.ValueEventListener
 
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class ShopFragment : Fragment() {
+class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var onItemClick: (ProductItem)->Unit
-    private lateinit var productList: ArrayList<ProductItem>
+    private var productList = ArrayList<ProductItem>()
     private lateinit var groupAdapter: GroupAdapter<GroupieViewHolder>
 
     override fun onCreateView(
@@ -33,11 +35,9 @@ class ShopFragment : Fragment() {
     ): View? {
         val layoutView = inflater.inflate(R.layout.fragment_shop, container, false)
 
-
         val dbRef = FirebaseDatabase.getInstance().reference.child("productData")
         val rvProductList = layoutView.findViewById<RecyclerView>(R.id.rvProductList)
         groupAdapter = GroupAdapter<GroupieViewHolder>()
-        productList = ArrayList()
 
         rvProductList.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -79,7 +79,27 @@ class ShopFragment : Fragment() {
 
         })
 
+        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)!!
+        toolbar.findViewById<SearchView>(R.id.searchBar).setOnQueryTextListener(this)
         return layoutView
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        val lowerCaseText = newText.toLowerCase(Locale.getDefault())
+
+        if (lowerCaseText.isNotEmpty()) {
+            groupAdapter.clear()
+            groupAdapter.addAll(productList.filter { it.itemName.toLowerCase(Locale.getDefault()).contains(lowerCaseText) })
+        }
+        else{
+            groupAdapter.clear()
+            groupAdapter.addAll(productList)
+        }
+        return false
     }
 
     private fun setData(){

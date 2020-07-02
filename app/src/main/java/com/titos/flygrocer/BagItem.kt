@@ -17,7 +17,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 
 
-class BagItem(val addedTime: String, val barcode: String, val itemQty: String,
+class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
               val tvTotal: TextView, val adapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>): Item() {
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int){
@@ -34,6 +34,7 @@ class BagItem(val addedTime: String, val barcode: String, val itemQty: String,
             val editTextQty = containerView.findViewById<EditText>(R.id.itemQty)
             val threeDots = containerView.findViewById<ImageButton>(R.id.moreOptionsMenu)
             var unitPrice = 0
+            var totalCost = 0
 
             //Adding initial quantity of 1
             editTextQty.setText(itemQty)
@@ -53,9 +54,10 @@ class BagItem(val addedTime: String, val barcode: String, val itemQty: String,
                     Picasso.get().load(url).into(ivProduct)
                     tvCompanyName.text = companyName
                     tvItemName.text = itemName
-                    tvItemPrice.text = "\u20B9 $itemPrice"
+                    totalCost = itemQty.toInt()*itemPrice.toInt()
+                    tvItemPrice.text = "\u20B9 $totalCost"
                     unitPrice = itemPrice.toInt()
-                    tvTotal.text =  "\u20B9 ${(initialTotal + unitPrice)}"
+                    tvTotal.text =  "\u20B9 ${(initialTotal + totalCost)}"
                 }
             })
 
@@ -66,8 +68,10 @@ class BagItem(val addedTime: String, val barcode: String, val itemQty: String,
                 if (currentQty>1){
                     val updatedQty = currentQty - 1
                     editTextQty.setText(updatedQty.toString())
-                    tvItemPrice.text = (updatedQty*unitPrice).toString()
-                    tvTotal.text = "\u20B9 ${(currentTotal - unitPrice)}"
+                    tvItemPrice.text = "\u20B9 ${(updatedQty*unitPrice)}"
+                    tvTotal.text = "\u20B9 ${(currentTotal + totalCost)}"
+                    itemQty = updatedQty.toString()
+                    notifyChanged()
                 }
             }
 
@@ -76,8 +80,10 @@ class BagItem(val addedTime: String, val barcode: String, val itemQty: String,
                 val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
                 val updatedQty = editTextQty.text.toString().toInt() + 1
                 editTextQty.setText(updatedQty.toString())
-                tvItemPrice.text = (updatedQty*unitPrice).toString()
-                tvTotal.text = "\u20B9 ${(currentTotal + unitPrice)}"
+                tvItemPrice.text = "\u20B9 ${(updatedQty*unitPrice)}"
+                tvTotal.text = "\u20B9 ${(currentTotal - totalCost)}"
+                itemQty = updatedQty.toString()
+                notifyChanged()
             }
 
             //creating a popup menu

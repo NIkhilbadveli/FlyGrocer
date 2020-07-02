@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.06"
-        android:layout_margin="@dimen/defalutPadding"
-        android:queryHint="Search for products, brands and more"
-        android:iconifiedByDefault="false"
-        android:background="@drawable/thin_border"
-        style="@style/SearchbarStyle"/>
+<!--    <SearchView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="0.06"-->
+<!--        android:layout_margin="@dimen/defalutPadding"-->
+<!--        android:queryHint="Search for products, brands and more"-->
+<!--        android:iconifiedByDefault="false"-->
+<!--        android:background="@drawable/thin_border"-->
+<!--        style="@style/SearchbarStyle"/>-->
 
     <com.denzcoskun.imageslider.ImageSlider
         android:layout_width="match_parent"

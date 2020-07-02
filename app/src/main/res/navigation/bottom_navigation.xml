@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_profileFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_rewardsFragment"
+            app:destination="@id/rewardsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
@@ -48,7 +51,9 @@
         tools:layout="@layout/fragment_product_detail" >
         <action
             android:id="@+id/action_productDetailsFragment_to_bagFragment"
-            app:destination="@id/bagFragment" />
+            app:destination="@id/bagFragment"
+            app:popUpTo="@id/productDetailsFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/shopFragment"
@@ -87,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
-        android:name="AddressFragment"
+        android:name="com.titos.flygrocer.AddressFragment"
         android:label="AddressFragment"
         tools:layout="@layout/fragment_address">
         <action
@@ -113,4 +118,9 @@
             android:id="@+id/action_ordersFragment_to_orderDetailsFragment"
             app:destination="@id/orderDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/rewardsFragment"
+        android:name="com.titos.flygrocer.RewardsFragment"
+        android:label="RewardsFragment"
+        tools:layout="@layout/fragment_rewards"/>
 </navigation>

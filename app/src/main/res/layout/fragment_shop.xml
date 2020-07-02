@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/colorBackground">
 
-    <androidx.cardview.widget.CardView
+    <!--<androidx.cardview.widget.CardView
         android:id="@+id/filterContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -35,15 +35,14 @@
                 android:layout_margin="@dimen/defalutMargin"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProductList"
-        android:layout_below="@id/filterContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        tools:listitem="@layout/item_bag"
+        tools:listitem="@layout/item_product"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </RelativeLayout>

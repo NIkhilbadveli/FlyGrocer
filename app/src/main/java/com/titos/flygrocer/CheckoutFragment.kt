@@ -32,6 +32,8 @@ import org.json.JSONObject
 class CheckoutFragment : Fragment() {
     private var orderTotal = 0
     private var selectedAddress = ""
+    private var usingDefault = true
+    private lateinit var rvAddresses: RecyclerView
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,7 +46,7 @@ class CheckoutFragment : Fragment() {
         val tvDeliveryCharges = layoutView.findViewById<TextView>(R.id.tvDeliveryCharges)
         val tvPayableTotal = layoutView.findViewById<TextView>(R.id.tvPayableTotal)
         val tvAddNewAddress = layoutView.findViewById<TextView>(R.id.tvAddNewAddress)
-        val rvAddresses = layoutView.findViewById<RecyclerView>(R.id.rvAddresses)
+        rvAddresses = layoutView.findViewById<RecyclerView>(R.id.rvAddresses)
 
         orderTotal = arguments?.getInt("orderTotal")!!
         val deliveryCharges = 40
@@ -88,6 +90,7 @@ class CheckoutFragment : Fragment() {
             rvAddresses.getChildAt(pos).findViewById<RadioButton>(R.id.radioAddress).isChecked = true
             selectedAddress = getFullAddress(rvAddresses, pos)
             lastSelectedPosition = pos
+            usingDefault = false
         }
 
         userRef.child("addresses").addValueEventListener(object : ValueEventListener {
@@ -112,13 +115,15 @@ class CheckoutFragment : Fragment() {
     }
 
     private fun getFullAddress(rvAddresses: RecyclerView, pos: Int): String {
-        return rvAddresses.getChildAt(pos).findViewById<TextView>(R.id.tvAddressLine1).text.toString() +
+        return rvAddresses.getChildAt(pos).findViewById<TextView>(R.id.tvAddressLine1).text.toString() + ", " +
         rvAddresses.getChildAt(pos).findViewById<TextView>(R.id.tvAddressLine2).text.toString() +
-        rvAddresses.getChildAt(pos).findViewById<TextView>(R.id.tvAddressLine3).text.toString() +
+        rvAddresses.getChildAt(pos).findViewById<TextView>(R.id.tvAddressLine3).text.toString() + ", " +
         rvAddresses.getChildAt(pos).findViewById<TextView>(R.id.tvMobileNumber).text.toString()
     }
 
     private fun startPayment(amount: Int) {
+        if (usingDefault)
+            selectedAddress = getFullAddress(rvAddresses, 0)
 
         val activity = activity
         val co = Checkout()

@@ -1,7 +1,6 @@
 package com.titos.flygrocer
 
 import android.annotation.SuppressLint
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -81,6 +80,6 @@ class FavItem(val barcode: String, var presentinBag: Boolean, var addedTime: Str
         }
     }
 
-    override fun getLayout(): Int = R.layout.item_product
+    override fun getLayout(): Int = R.layout.item_fav
 
 }

@@ -54,6 +54,7 @@ class ProfileFragment : Fragment() {
             when (rvProfile.getChildAdapterPosition(view)) {
                 0 -> findNavController().navigate(R.id.action_profileFragment_to_ordersFragment)
                 1 -> findNavController().navigate(R.id.action_profileFragment_to_addressFragment)
+                2 -> findNavController().navigate(R.id.action_profileFragment_to_rewardsFragment)
             }
         }
 

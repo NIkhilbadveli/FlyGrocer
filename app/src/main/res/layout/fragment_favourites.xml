@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="My Favourites"
         android:textColor="@color/black"
+        android:layout_margin="@dimen/defalutMargin"
         android:textSize="25dp"
         android:id="@+id/tvFav"/>
 
@@ -21,6 +22,6 @@
         android:layout_gravity="center"
         android:background="@color/white"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/item_product" />
+        tools:listitem="@layout/item_fav" />
 
 </RelativeLayout>

@@ -7,9 +7,12 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +27,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.razorpay.PaymentResultListener
 import com.squareup.picasso.Picasso
-import io.github.pierry.progress.Progress
+
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -52,6 +56,14 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         navController.saveState()
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val searchView = toolbar.findViewById<SearchView>(R.id.searchBar)
+        searchView.setOnClickListener {
+            searchView.isIconified = false
+            if (findNavController(R.id.nav_host_fragment_container).currentDestination?.id != R.id.shopFragment)
+                findNavController(R.id.nav_host_fragment_container).navigate(R.id.shopFragment)
+        }
+
         //Save all userdata to sharedPref
         sharedPref = getSharedPreferences("userData", Context.MODE_PRIVATE)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -63,12 +75,18 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
                 val userName = p0.child("userName").value.toString()
                 val cityName = p0.child("cityName").value.toString()
                 val mobileNumber = p0.child("phoneNumber").value.toString()
+                val referralCode = p0.child("referralCode").value.toString()
+
                 sharedPref.edit().apply {
                     putString("userName", userName)
                     putString("cityName", cityName)
                     putString("phoneNumber", mobileNumber)
+                    if (referralCode!="null")
+                        putString("referralCode", referralCode)
                     apply()
                 }
+                if (referralCode=="null")
+                    generateAndPutCode()
             }
         })
 
@@ -89,6 +107,16 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         model.address.observe(this) { str ->
             address = str
         }
+    }
+
+    private fun generateAndPutCode() {
+        //Generating and saving referral code
+        val allowedChars = ('A'..'Z')
+        val referralCode = (1..6).map { allowedChars.random() }.joinToString("")
+        userRef.child("referralCode").setValue(referralCode)
+        FirebaseDatabase.getInstance().reference
+            .child("allReferralCodes/$referralCode").setValue(FirebaseAuth.getInstance().currentUser?.uid)
+        sharedPref.edit().putString("referralCode", referralCode).apply()
     }
 
     class ViewModelForList : ViewModel() {
@@ -154,7 +182,6 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
                     val bundle = Bundle()
                     bundle.putString("orderId", orderId)
                     findNavController(R.id.nav_host_fragment_container).navigate(R.id.action_checkoutFragment_to_successFragment, bundle)
-                    findNavController(R.id.nav_host_fragment_container).popBackStack()
                 }
             })
         }catch (e: Exception){

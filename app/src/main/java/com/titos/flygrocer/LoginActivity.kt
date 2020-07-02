@@ -2,6 +2,7 @@ package com.titos.flygrocer
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Paint
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +22,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.*
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class LoginActivity : AppCompatActivity() {
     companion object {
@@ -39,10 +43,12 @@ class LoginActivity : AppCompatActivity() {
     private var liveCities = ArrayList<String>()
     private lateinit var name: String
     private lateinit var phoneNum: String
+    private var referralCode = "NBR000"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         val sendOtpButton = findViewById<Button>(R.id.buttonLogin)
         val inputPhone = findViewById<EditText>(R.id.editTextPhone)
@@ -53,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
         databaseRef = FirebaseDatabase.getInstance().reference
 
         val countDownTimer = object : CountDownTimer(60000, 1000) {
+            @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 tvCountDownTimer.text = "${(millisUntilFinished / 1000)}s"
             }
@@ -87,6 +94,7 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithCredential(credential)
                     .addOnCompleteListener(this@LoginActivity) { task ->
                         if (task.isSuccessful) {
+                            checkReferralCode()
                             checkAvailability()
                         } else {
 
@@ -125,19 +133,26 @@ class LoginActivity : AppCompatActivity() {
         
         sendOtpButton.setOnClickListener {
             if (inputPhone.text.isNotEmpty() && !otpSent){
-                val phoneNumber = inputPhone.text.toString()
-                phoneNum = phoneNumber
+                var phoneNumber = inputPhone.text.toString()
+                if (phoneNumber.length==10)
+                    phoneNumber = "+91$phoneNumber"
 
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    "+91$phoneNumber", // Phone number to verify
-                    60, // Timeout duration
-                    TimeUnit.SECONDS, // Unit of timeout
-                    this, // Activity (for callback binding)
-                    callbacks) // OnVerificationStateChangedCallbacks
+                if (phoneNumber.take(3) == "+91" && phoneNumber.length!=13)
+                    Toast.makeText(this,"Please check your phone number", Toast.LENGTH_SHORT).show()
+                else {
+                    phoneNum = phoneNumber
+                    //Perform check on given phone number
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                        phoneNumber, // Phone number to verify
+                        60, // Timeout duration
+                        TimeUnit.SECONDS, // Unit of timeout
+                        this, // Activity (for callback binding)
+                        callbacks) // OnVerificationStateChangedCallbacks
 
-                    findViewById<LinearLayout>(R.id.otpContainer).visibility = View.VISIBLE
-                    sendOtpButton.text = "Login"
-                    otpSent = true
+                        findViewById<LinearLayout>(R.id.otpContainer).visibility = View.VISIBLE
+                        sendOtpButton.text = "Login"
+                        otpSent = true
+                }
             }
             else if (otpSent && otpView.otp.length==6)
                 verifyVerificationCode(otpView.otp)
@@ -150,26 +165,37 @@ class LoginActivity : AppCompatActivity() {
 
         tvCountDownTimer.setOnClickListener {
             if (!otpResent){
-                val phoneNumber = inputPhone.text.toString()
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    "+91$phoneNumber", // Phone number to verify
-                    60, // Timeout duration
-                    TimeUnit.SECONDS, // Unit of timeout
-                    this, // Activity (for callback binding)
-                    callbacks) // OnVerificationStateChangedCallbacks
+                var phoneNumber = inputPhone.text.toString()
+                if (phoneNumber.length==10)
+                    phoneNumber = "+91$phoneNumber"
 
-                otpResent = true
+                if (phoneNumber.take(3) == "+91" && phoneNumber.length!=13)
+                    Toast.makeText(this,"Please check your phone number", Toast.LENGTH_SHORT).show()
+                else {
+                    phoneNum = phoneNumber
+                    //Perform check on given phone number
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                        phoneNumber, // Phone number to verify
+                        60, // Timeout duration
+                        TimeUnit.SECONDS, // Unit of timeout
+                        this, // Activity (for callback binding)
+                        callbacks) // OnVerificationStateChangedCallbacks
+                    otpResent = true
+                }
             }
         }
     }
 
     private fun verifyVerificationCode(otp: String) {
         val credential = PhoneAuthProvider.getCredential(storedVerificationId, otp)
-
+        val pd = ProgressDialog.progressDialog(this)
+        pd.show()
         //Signing in after verification
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    pd.dismiss()
+                    checkReferralCode()
                     checkAvailability()
                 } else {
 
@@ -196,6 +222,9 @@ class LoginActivity : AppCompatActivity() {
 
         spinnerLiveCities.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, liveCities)
 
+        val pd = ProgressDialog.progressDialog(this)
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Checking for availability..."
+        pd.show()
         databaseRef.child("userData").child(user.uid).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
@@ -203,12 +232,14 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()){
+                    pd.dismiss()
                     startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                     finish()
                 }
                 else{
                     //Saving user data
                     databaseRef.child("userData").child(user.uid).child("phoneNumber").setValue(phoneNum)
+                    pd.dismiss()
                     dialog.show()
                 }
             }
@@ -229,5 +260,37 @@ class LoginActivity : AppCompatActivity() {
             else
                 Toast.makeText(this,"Please select one of the above listed cities", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun checkReferralCode(){
+        val etReferralCode = findViewById<EditText>(R.id.etReferralCode)
+        if (etReferralCode.text.length==6)
+            referralCode = etReferralCode.text.toString()
+        else if (etReferralCode.text.isNotEmpty())
+            Toast.makeText(this,"Check the code once again", Toast.LENGTH_SHORT).show()
+
+        referralCode = referralCode.toUpperCase(Locale.ROOT)
+        var referrerUid: String
+        val pd = ProgressDialog.progressDialog(this)
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Validating referral code..."
+        pd.show()
+        databaseRef.child("allReferralCodes/$referralCode").addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.exists()){
+                        pd.dismiss()
+                        referrerUid = p0.value.toString()
+                        databaseRef.child("userData/${auth.currentUser!!.uid}/rewardPoints").setValue(500)
+                        databaseRef.child("userData/${referrerUid}/rewardPoints").setValue(500)
+                        Toast.makeText(this@LoginActivity,"Yayy! You earned 500 points!", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        pd.dismiss()
+                        Toast.makeText(this@LoginActivity,"This code doesn't belong to anyone", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        })
     }
 }
