@@ -72,6 +72,7 @@ class ProductDetailFragment: Fragment() {
             }
             else {
                 findNavController().navigate(R.id.action_productDetailsFragment_to_bagFragment)
+                //findNavController().popBackStack(R.id.productDetailsFragment, false)
             }
 
         }

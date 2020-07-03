@@ -3,7 +3,7 @@ package com.titos.flygrocer
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
+import android.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -79,8 +79,7 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
 
         })
 
-        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)!!
-        toolbar.findViewById<SearchView>(R.id.searchBar).setOnQueryTextListener(this)
+        layoutView.findViewById<SearchView>(R.id.searchBar).setOnQueryTextListener(this)
         return layoutView
     }
 

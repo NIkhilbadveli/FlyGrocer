@@ -51,9 +51,7 @@
         tools:layout="@layout/fragment_product_detail" >
         <action
             android:id="@+id/action_productDetailsFragment_to_bagFragment"
-            app:destination="@id/bagFragment"
-            app:popUpTo="@id/productDetailsFragment"
-            app:popUpToInclusive="true"/>
+            app:destination="@id/bagFragment" />
     </fragment>
     <fragment
         android:id="@+id/shopFragment"
@@ -71,7 +69,9 @@
         tools:layout="@layout/fragment_checkout">
         <action
             android:id="@+id/action_checkoutFragment_to_successFragment"
-            app:destination="@id/successFragment" />
+            app:destination="@id/successFragment"
+            app:popUpTo="@id/checkoutFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_checkoutFragment_to_editAddressFragment"
             app:destination="@id/editAddressFragment" />

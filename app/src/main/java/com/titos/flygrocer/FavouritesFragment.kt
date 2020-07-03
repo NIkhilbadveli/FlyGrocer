@@ -84,8 +84,8 @@ class FavouritesFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 for(timeStamp in p0.children){
-                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }.addedTime = timeStamp.key!!
-                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }.presentinBag = true
+                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }?.addedTime = timeStamp.key!!
+                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }?.presentinBag = true
                 }
                 groupAdapter.addAll(productList)
             }

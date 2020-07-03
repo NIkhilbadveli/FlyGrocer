@@ -18,7 +18,6 @@ class SuccessFragment : Fragment() {
         val layoutView = inflater.inflate(R.layout.fragment_success, container, false)
         val orderId = arguments?.getString("orderId")!!
 
-        //findNavController().popBackStack(R.id.checkoutFragment,true)
         layoutView.findViewById<TextView>(R.id.tvOrderId).text = "#${orderId}"
 
         layoutView.findViewById<Button>(R.id.trackButton).setOnClickListener {
