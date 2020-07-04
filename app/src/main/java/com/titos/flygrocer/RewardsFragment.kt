@@ -46,12 +46,6 @@ class RewardsFragment : Fragment() {
 
         val sharedPref = activity?.getSharedPreferences("userData", Context.MODE_PRIVATE)!!
         val referralCode = sharedPref.getString("referralCode","NBR000")!!
-        /*if (referralCode=="NBR000") {
-            val allowedChars = ('A'..'Z')
-            referralCode = (1..6).map { allowedChars.random() }.joinToString("")
-            userRef.child("referralCode").setValue(referralCode)
-            sharedPref.edit().putString("referralCode", referralCode).apply()
-        }*/
 
         tvReferralCode.text = referralCode
         tvReferralCode.setOnClickListener {

@@ -6,8 +6,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.4"
         android:src="@drawable/success"
+        android:padding="50dp"
         android:layout_margin="@dimen/defalutMargin"/>
     <TextView
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
         android:id="@+id/trackButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.06"
+        android:layout_weight="0.03"
         android:layout_margin="@dimen/defalutMargin"
         android:text="Track your order"
         android:background="@drawable/button_background"

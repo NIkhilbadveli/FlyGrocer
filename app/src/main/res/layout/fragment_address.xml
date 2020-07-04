@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white">
     <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My Addresses"
@@ -14,11 +15,38 @@
         android:textColor="@color/black"
         android:layout_margin="@dimen/defalutMargin"
         />
+
+    <LinearLayout
+        android:id="@+id/emptyContainer"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:src="@drawable/empty"
+            android:padding="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:text="It's so empty here :)"
+            android:layout_margin="@dimen/defalutMargin"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAddresses"
+        android:layout_below="@id/tv"
+        android:layout_above="@id/addNewAddressButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
         tools:listitem="@layout/item_address"
         />
     <Button
@@ -28,7 +56,8 @@
         android:text="Add New Address"
         android:layout_margin="@dimen/defalutMargin"
         android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
         android:elevation="10dp"
         android:background="@drawable/button_background"
         />
-</LinearLayout>
+</RelativeLayout>

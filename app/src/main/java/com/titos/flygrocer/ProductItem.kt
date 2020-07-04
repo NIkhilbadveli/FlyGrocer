@@ -72,7 +72,7 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
                 if (currentQty>1){
                     val updatedQty = currentQty - 1
                     editTextQty.setText(updatedQty.toString())
-                    tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
+                    //tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
                     userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
                     itemQuantity = updatedQty.toString()
                     notifyChanged()
@@ -83,7 +83,7 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
             containerView.findViewById<ImageButton>(R.id.addQuantityFab).setOnClickListener {
                 val updatedQty = editTextQty.text.toString().toInt() + 1
                 editTextQty.setText(updatedQty.toString())
-                tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
+                //tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
                 userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
                 itemQuantity = updatedQty.toString()
                 notifyChanged()

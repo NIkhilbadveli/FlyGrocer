@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -48,12 +49,19 @@ class AddressFragment : Fragment() {
             lastSelectedPosition = pos
         }
 
+        val showEmptyContainer = {
+            layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
+        }
+
         userRef.child("addresses").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                if (!p0.hasChildren())
+                    layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
+
                 for (id in p0.children){
                     val addressLine1: String = id.child("name").value.toString()
                     val addressLine2: String = id.child("line1").value.toString()
@@ -61,7 +69,7 @@ class AddressFragment : Fragment() {
                     val mobileNumber: String = id.child("mobileNumber").value.toString()
 
                     groupAdapter.add(AddressItem(id.key!!.toInt(), addressLine1, addressLine2, addressLine3,
-                        mobileNumber, openEditAddress, groupAdapter, false, handleRadioButton))
+                        mobileNumber, openEditAddress, groupAdapter, false, handleRadioButton, showEmptyContainer))
                 }
             }
         })

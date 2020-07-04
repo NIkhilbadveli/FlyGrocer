@@ -1,5 +1,6 @@
 package com.titos.flygrocer
 
+import android.annotation.SuppressLint
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -23,16 +24,20 @@ class OrderItem(private val orderNumber: String, private val cityName: String,
 
                 }
 
+                @SuppressLint("SetTextI18n")
                 override fun onDataChange(p0: DataSnapshot) {
-                    containerView.findViewById<TextView>(R.id.tvOrderNumber).text = orderNumber
-                    containerView.findViewById<TextView>(R.id.tvOrderQty).text = p0.child("orderQty").value.toString()
-                    containerView.findViewById<TextView>(R.id.tvOrderTotal).text = p0.child("orderTotal").value.toString()
+                    containerView.findViewById<TextView>(R.id.tvOrderTotal).text = "\u20B9 ${p0.child("orderTotal").value.toString()}"
                     containerView.findViewById<TextView>(R.id.tvOrderDate).text = p0.child("orderTime").value.toString()
-                    containerView.findViewById<TextView>(R.id.tvOrderStatus).text = p0.child("orderStatus").value.toString()
+                    val status = p0.child("orderStatus").value.toString()
+                    containerView.findViewById<TextView>(R.id.tvOrderStatus).text = status
+                    if (status=="Delivered")
+                        containerView.findViewById<TextView>(R.id.tvOrderStatus).setTextColor(containerView.context.resources
+                            .getColor(R.color.green))
+
                 }
             })
 
-            containerView.findViewById<Button>(R.id.orderDetailsButton).setOnClickListener { openOrderDetails.invoke(orderNumber) }
+            containerView.setOnClickListener { openOrderDetails.invoke(orderNumber) }
         }
     }
 

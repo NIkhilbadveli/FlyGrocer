@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -42,6 +43,10 @@ class BagFragment : Fragment() {
             adapter = groupAdapter
         }
 
+        val showEmptyContainer = {
+            layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
+        }
+
         val checkoutButton = layoutView.findViewById<Button>(R.id.checkoutButton)
         val bundle = Bundle()
         checkoutButton.setOnClickListener{
@@ -60,12 +65,12 @@ class BagFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                if(p0.exists()){
+                if(p0.hasChildren()){
                     for(timeStamp in p0.children){
                         val barcode = timeStamp.child("barcode").value.toString()
                         val qty = timeStamp.child("qty").value.toString()
 
-                        groupAdapter.add(BagItem(timeStamp.key!!,barcode,qty,tvTotal, groupAdapter))
+                        groupAdapter.add(BagItem(timeStamp.key!!,barcode,qty,tvTotal, groupAdapter, showEmptyContainer))
                         barcodeList.add(barcode)
                         qtyList.add(qty)
                     }
@@ -73,6 +78,8 @@ class BagFragment : Fragment() {
                     bundle.putStringArrayList("qtyList", qtyList)
                     updateTvTotal(barcodeList, qtyList)
                 }
+                else
+                    layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
             }
         })
 

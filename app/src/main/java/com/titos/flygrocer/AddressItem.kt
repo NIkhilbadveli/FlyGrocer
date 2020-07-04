@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.item_profile.*
 class AddressItem(private val addressId: Int, val addressLine1: String, val addressLine2: String, val addressLine3: String,
                   val mobileNumber: String, private val openEditAddress: ((Int) -> Unit),
                   val groupAdapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>, val insideCheckout: Boolean,
-                    val handleRadioButton: ((Int)->Unit)): Item() {
+                  val handleRadioButton: ((Int)->Unit),
+                  val showEmptyContainer: (()->Unit)): Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int){
         viewHolder.apply {
@@ -42,6 +43,8 @@ class AddressItem(private val addressId: Int, val addressLine1: String, val addr
 
             containerView.findViewById<Button>(R.id.removeAddressButton).setOnClickListener {
                 groupAdapter.removeGroupAtAdapterPosition(position)
+                if (groupAdapter.itemCount==0)
+                    showEmptyContainer.invoke()
                 userRef.child("addresses").child(addressId.toString()).removeValue()
             }
 

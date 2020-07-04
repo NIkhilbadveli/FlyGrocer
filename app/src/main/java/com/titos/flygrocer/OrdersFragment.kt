@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,6 +51,9 @@ class OrdersFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                if (!p0.hasChildren())
+                    layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
+
                 for (key in p0.children){
                     groupAdapter.add(OrderItem(key.value.toString(),cityName, openOrderDetails))
                 }

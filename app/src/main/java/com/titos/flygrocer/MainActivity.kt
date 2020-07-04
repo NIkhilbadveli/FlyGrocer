@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
                     orderRef.child(cityName).child(orderId).child("orderTime").setValue(simpleDateFormat.format(Date()))
                     orderRef.child(cityName).child(orderId).child("razorPayId").setValue(razorpayPaymentId)
                     orderRef.child(cityName).child(orderId).child("orderQty").setValue(totalQty)
-                    orderRef.child(cityName).child(orderId).child("orderStatus").setValue("placed")
+                    orderRef.child(cityName).child(orderId).child("orderStatus").setValue("Pending")
                     orderRef.child(cityName).child(orderId).child("deliveryAddress").setValue(address)
                     orderRef.child(cityName).child(orderId).child("userId").setValue(userRef.key)
 

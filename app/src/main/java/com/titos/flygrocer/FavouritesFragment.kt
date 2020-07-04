@@ -47,7 +47,7 @@ class FavouritesFragment : Fragment() {
             val bundle = Bundle()
             bundle.putStringArrayList("list",str)
 
-            findNavController().navigate(R.id.action_shopFragment_to_productDetailsFragment, bundle)
+            findNavController().navigate(R.id.action_favouritesFragment_to_productDetailsFragment, bundle)
         }
 
         rvFav.apply {
@@ -61,12 +61,14 @@ class FavouritesFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()){
+                if (p0.hasChildren()){
                     for(timeStamp in p0.children){
                          productList.add(FavItem(timeStamp.value.toString(),false, "00-00-0000 00:00:00", onItemClick))
                     }
                     setData()
                 }
+                else
+                    layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
             }
         })
 

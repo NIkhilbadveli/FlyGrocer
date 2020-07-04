@@ -132,6 +132,7 @@ class LoginActivity : AppCompatActivity() {
         }
         
         sendOtpButton.setOnClickListener {
+            otpView.requestFocusOTP()
             if (inputPhone.text.isNotEmpty() && !otpSent){
                 var phoneNumber = inputPhone.text.toString()
                 if (phoneNumber.length==10)
@@ -180,6 +181,7 @@ class LoginActivity : AppCompatActivity() {
                         TimeUnit.SECONDS, // Unit of timeout
                         this, // Activity (for callback binding)
                         callbacks) // OnVerificationStateChangedCallbacks
+                    Toast.makeText(this,"OTP resent", Toast.LENGTH_SHORT).show()
                     otpResent = true
                 }
             }

@@ -75,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textCursorDrawable="@color/black"
             app:height="40dp"
             app:width="40dp"
             app:bar_enabled="true"

@@ -40,12 +40,12 @@
     <SearchView
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_margin="@dimen/defalutPadding"
         android:queryHint="Search for products, brands and more"
         android:iconifiedByDefault="false"
         android:background="@drawable/thin_border"
-        android:textCursorDrawable="@drawable/cursor_color"/>
+        android:theme="@style/SearchbarStyle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/searchBar"

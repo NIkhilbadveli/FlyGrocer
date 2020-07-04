@@ -32,7 +32,8 @@
             android:id="@+id/rvOrderItemList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_product" />
+            tools:listitem="@layout/item_product"
+            tools:itemCount="3"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,9 +56,8 @@
                 android:layout_marginTop="30dp"
                 android:layout_gravity="center"
                 android:numStars="5"
-                android:stepSize="0.1"
-                android:isIndicator="true"
-                style="?android:attr/ratingBarStyle"
+                android:isIndicator="false"
+                android:theme="@style/RatingBar"
                 />
 
             <EditText
@@ -65,9 +65,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:background="@drawable/thin_border"
+                android:padding="@dimen/defalutPadding"
+                android:textCursorDrawable="@drawable/cursor_color"
                 android:hint="Write review here"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/defalutMargin"
+                android:text="Submit Review"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white"
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

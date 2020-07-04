@@ -43,6 +43,11 @@
         android:name="com.titos.flygrocer.FavouritesFragment"
         android:label="Favourties"
         tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/favouritesFragment"/>
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"

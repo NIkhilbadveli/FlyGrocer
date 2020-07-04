@@ -18,7 +18,8 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 
 
 class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
-              val tvTotal: TextView, val adapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>): Item() {
+              val tvTotal: TextView, val adapter: GroupAdapter<com.xwray.groupie.GroupieViewHolder>,
+            val showEmptyContainer: (()->Unit)): Item() {
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int){
         viewHolder.apply {
@@ -96,6 +97,8 @@ class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
                         val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
                         val price = tvItemPrice.text.toString().split(" ").last().toInt()
                         adapter.removeGroupAtAdapterPosition(adapterPosition)
+                        if (adapter.itemCount==0)
+                            showEmptyContainer.invoke()
                         Toast.makeText(containerView.context,"Removed from Bag", Toast.LENGTH_SHORT).show()
                         userRef.child("bagItems").child(addedTime).removeValue()
                         tvTotal.text = "\u20B9 ${(currentTotal - price)}"
