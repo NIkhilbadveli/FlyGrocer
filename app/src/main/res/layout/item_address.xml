@@ -84,16 +84,14 @@
                 />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/defalutPadding"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/defalutPadding">
             <Button
                 android:id="@+id/editAddressButton"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginStart="30dp"
                 android:background="@drawable/button_background"
                 android:textColor="@color/colorAccent"
@@ -101,14 +99,14 @@
                 android:text="Edit"/>
             <Button
                 android:id="@+id/removeAddressButton"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/button_background"
                 android:textColor="@color/colorAccent"
                 android:elevation="10dp"
                 android:text="Remove"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

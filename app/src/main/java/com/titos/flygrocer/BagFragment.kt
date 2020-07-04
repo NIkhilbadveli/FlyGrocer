@@ -1,5 +1,6 @@
 package com.titos.flygrocer
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -24,15 +25,12 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 class BagFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private lateinit var tvTotal: TextView
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val layoutView =  inflater.inflate(R.layout.fragment_bag, container, false)
 
-        val tvTotal = layoutView.findViewById<TextView>(R.id.totalAmount)
+        tvTotal = layoutView.findViewById<TextView>(R.id.totalAmount)
         val rvProductList = layoutView.findViewById<RecyclerView>(R.id.rvBagList)
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -73,10 +71,30 @@ class BagFragment : Fragment() {
                     }
                     bundle.putStringArrayList("barcodeList", barcodeList)
                     bundle.putStringArrayList("qtyList", qtyList)
+                    updateTvTotal(barcodeList, qtyList)
                 }
             }
         })
 
         return layoutView
+    }
+
+    private fun updateTvTotal(barcodeList: ArrayList<String>, qtyList: ArrayList<String>) {
+        FirebaseDatabase.getInstance().reference.child("/productData").addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                var total = 0
+                for (barcode in p0.children){
+                    if (barcodeList.contains(barcode.key)){
+                        total += qtyList[barcodeList.indexOf(barcode.key)].toInt()*barcode.child("price").value.toString().toInt()
+                    }
+                }
+                tvTotal.text = "\u20B9 $total"
+            }
+        })
     }
 }

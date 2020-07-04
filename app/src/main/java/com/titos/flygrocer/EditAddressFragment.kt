@@ -55,6 +55,7 @@ class EditAddressFragment : Fragment() {
                 userRef.child("addresses").child(addressId.toString()).child("line1").setValue(etLine1.text.toString())
                 userRef.child("addresses").child(addressId.toString()).child("line2").setValue(etLine2.text.toString())
                 userRef.child("addresses").child(addressId.toString()).child("landmark").setValue(etLandMark.text.toString())
+                Toast.makeText(requireContext(),"Address updated in database", Toast.LENGTH_SHORT).show()
                 findNavController().navigateUp()
             }
             else

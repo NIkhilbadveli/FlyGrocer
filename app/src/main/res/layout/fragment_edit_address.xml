@@ -26,7 +26,9 @@
         android:id="@+id/etFullName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:padding="@dimen/defalutPadding"
         android:hint="Full name"
         android:inputType="textPersonName"
@@ -34,12 +36,15 @@
         android:textSize="20sp"
         android:gravity="center"
         android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
     <EditText
         android:id="@+id/etMobileNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:padding="@dimen/defalutPadding"
         android:hint="Mobile Number"
         android:ems="10"
@@ -48,12 +53,15 @@
         android:textSize="20sp"
         android:gravity="center"
         android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
     <EditText
         android:id="@+id/etPincode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:padding="@dimen/defalutPadding"
         android:hint="Pin code"
         android:maxLength="6"
@@ -62,12 +70,15 @@
         android:textSize="20sp"
         android:gravity="center"
         android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
     <EditText
         android:id="@+id/etLine1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:padding="@dimen/defalutPadding"
         android:hint="Address Line1"
         android:inputType="textPostalAddress"
@@ -75,12 +86,15 @@
         android:textSize="20sp"
         android:gravity="center"
         android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
     <EditText
         android:id="@+id/etLine2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:padding="@dimen/defalutPadding"
         android:hint="Address Line2"
         android:inputType="textPostalAddress"
@@ -88,12 +102,15 @@
         android:textSize="20sp"
         android:gravity="center"
         android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
     <EditText
         android:id="@+id/etLandMark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:padding="@dimen/defalutPadding"
         android:hint="Landmark"
         android:inputType="text"
@@ -101,6 +118,7 @@
         android:textSize="20sp"
         android:gravity="center"
         android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
     </LinearLayout>
 

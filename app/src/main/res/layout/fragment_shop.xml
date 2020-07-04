@@ -44,7 +44,8 @@
         android:layout_margin="@dimen/defalutPadding"
         android:queryHint="Search for products, brands and more"
         android:iconifiedByDefault="false"
-        android:background="@drawable/thin_border" />
+        android:background="@drawable/thin_border"
+        android:textCursorDrawable="@drawable/cursor_color"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/searchBar"

@@ -1,6 +1,7 @@
 package com.titos.flygrocer
 
 import android.annotation.SuppressLint
+import android.media.Image
 import android.view.View
 import android.widget.*
 
@@ -66,7 +67,7 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
             }
 
             //Handling minus for quantity
-            containerView.findViewById<FloatingActionButton>(R.id.subtractQuantityFab).setOnClickListener {
+            containerView.findViewById<ImageButton>(R.id.subtractQuantityFab).setOnClickListener {
                 val currentQty = editTextQty.text.toString().toInt()
                 if (currentQty>1){
                     val updatedQty = currentQty - 1
@@ -79,7 +80,7 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
             }
 
             //Handling plus for quantity
-            containerView.findViewById<FloatingActionButton>(R.id.addQuantityFab).setOnClickListener {
+            containerView.findViewById<ImageButton>(R.id.addQuantityFab).setOnClickListener {
                 val updatedQty = editTextQty.text.toString().toInt() + 1
                 editTextQty.setText(updatedQty.toString())
                 tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"

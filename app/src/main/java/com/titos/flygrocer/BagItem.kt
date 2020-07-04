@@ -57,31 +57,32 @@ class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
                     totalCost = itemQty.toInt()*itemPrice.toInt()
                     tvItemPrice.text = "\u20B9 $totalCost"
                     unitPrice = itemPrice.toInt()
-                    tvTotal.text =  "\u20B9 ${(initialTotal + totalCost)}"
                 }
             })
 
             //Handling minus for quantity
-            containerView.findViewById<FloatingActionButton>(R.id.subtractQuantityFab).setOnClickListener {
+            containerView.findViewById<ImageButton>(R.id.subtractQuantityFab).setOnClickListener {
                 val currentQty = editTextQty.text.toString().toInt()
                 val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
                 if (currentQty>1){
                     val updatedQty = currentQty - 1
                     editTextQty.setText(updatedQty.toString())
                     tvItemPrice.text = "\u20B9 ${(updatedQty*unitPrice)}"
-                    tvTotal.text = "\u20B9 ${(currentTotal + totalCost)}"
+                    tvTotal.text = "\u20B9 ${(currentTotal - unitPrice)}"
+                    userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
                     itemQty = updatedQty.toString()
                     notifyChanged()
                 }
             }
 
             //Handling plus for quantity
-            containerView.findViewById<FloatingActionButton>(R.id.addQuantityFab).setOnClickListener {
+            containerView.findViewById<ImageButton>(R.id.addQuantityFab).setOnClickListener {
                 val currentTotal = tvTotal.text.toString().split(" ").last().toInt()
                 val updatedQty = editTextQty.text.toString().toInt() + 1
                 editTextQty.setText(updatedQty.toString())
                 tvItemPrice.text = "\u20B9 ${(updatedQty*unitPrice)}"
-                tvTotal.text = "\u20B9 ${(currentTotal - totalCost)}"
+                tvTotal.text = "\u20B9 ${(currentTotal + unitPrice)}"
+                userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
                 itemQty = updatedQty.toString()
                 notifyChanged()
             }

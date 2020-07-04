@@ -26,7 +26,8 @@
         android:hint="Enter your phone number"
         android:background="@drawable/thin_border"
         android:padding="@dimen/defalutPadding"
-        android:layout_margin="@dimen/defalutMargin" />
+        android:layout_margin="@dimen/defalutMargin"
+        android:textCursorDrawable="@drawable/cursor_color" />
 
     <EditText
         android:id="@+id/etReferralCode"
@@ -36,7 +37,8 @@
         android:hint="Referral Code (Optional)"
         android:background="@drawable/thin_border"
         android:padding="@dimen/defalutPadding"
-        android:layout_margin="@dimen/defalutMargin" />
+        android:layout_margin="@dimen/defalutMargin"
+        android:textCursorDrawable="@drawable/cursor_color"/>
 
     <LinearLayout
         android:id="@+id/otpContainer"
@@ -73,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
+            android:textCursorDrawable="@color/black"
             app:height="40dp"
             app:width="40dp"
             app:bar_enabled="true"
@@ -96,14 +99,15 @@
         android:background="@drawable/button_background"
         android:elevation="5dp"/>
     <TextView
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="By signing up you confirm that you read and agree
 to our company Privacy Policy and Terms and Conditions"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:textSize="12dp">
-
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="12sp">
     </TextView>
 </LinearLayout>

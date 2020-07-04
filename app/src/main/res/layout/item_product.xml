@@ -101,13 +101,14 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/tvCompanyName"
                 android:layout_margin="5dp">
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <ImageButton
                     android:id="@+id/subtractQuantityFab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_remove_black_24dp"
-                    app:fabSize="mini"
-                    android:layout_gravity="center"/>
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/thin_border" />
 
                 <EditText
                     android:id="@+id/itemQty"
@@ -122,12 +123,13 @@
                     android:layout_marginStart="10dp"
                     android:imeOptions="actionDone"/>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <ImageButton
                     android:id="@+id/addQuantityFab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_add_black_24dp"
-                    app:fabSize="mini"
+                    android:background="@drawable/thin_border"
+                    android:padding="5dp"
                     android:layout_gravity="center"/>
             </LinearLayout>
         </RelativeLayout>
