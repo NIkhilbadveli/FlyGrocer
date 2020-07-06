@@ -1,5 +1,6 @@
 package com.titos.flygrocer
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,7 @@ class FavouritesFragment : Fragment() {
     private lateinit var onItemClick: (FavItem)->Unit
     private var productList = ArrayList<FavItem>()
     private var groupAdapter = GroupAdapter<GroupieViewHolder>()
+    private lateinit var pd : Dialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -31,7 +34,7 @@ class FavouritesFragment : Fragment() {
         val layoutView =  inflater.inflate(R.layout.fragment_favourites, container, false)
 
         val rvFav = layoutView.findViewById<RecyclerView>(R.id.rvFavourites)
-
+        pd = ProgressDialog.progressDialog(requireContext())
         val user = FirebaseAuth.getInstance().currentUser!!
         val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
 
@@ -55,6 +58,9 @@ class FavouritesFragment : Fragment() {
              adapter = groupAdapter
         }
 
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Please wait..."
+        pd.setCanceledOnTouchOutside(false)
+        pd.show()
         userRef.child("favItems").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -90,6 +96,7 @@ class FavouritesFragment : Fragment() {
                     productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }?.presentinBag = true
                 }
                 groupAdapter.addAll(productList)
+                pd.dismiss()
             }
         })
     }

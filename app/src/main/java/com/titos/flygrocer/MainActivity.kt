@@ -56,14 +56,6 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         navController.saveState()
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
-        /*val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        val searchView = toolbar.findViewById<SearchView>(R.id.searchBar)
-        searchView.setOnClickListener {
-            searchView.isIconified = false
-            if (findNavController(R.id.nav_host_fragment_container).currentDestination?.id != R.id.shopFragment)
-                findNavController(R.id.nav_host_fragment_container).navigate(R.id.shopFragment)
-        }*/
-
         //Save all userdata to sharedPref
         sharedPref = getSharedPreferences("userData", Context.MODE_PRIVATE)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -182,7 +174,6 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
                     val bundle = Bundle()
                     bundle.putString("orderId", orderId)
                     findNavController(R.id.nav_host_fragment_container).navigate(R.id.action_checkoutFragment_to_successFragment, bundle)
-                    //findNavController(R.id.nav_host_fragment_container).popBackStack(R.id.checkoutFragment,false)
                 }
             })
         }catch (e: Exception){

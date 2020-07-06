@@ -27,11 +27,11 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class LoginActivity : AppCompatActivity() {
-    companion object {
+    /*companion object {
         init {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         }
-    }
+    }*/
 
     private val TAG = "FlyGrocerTag"
     private lateinit var auth: FirebaseAuth

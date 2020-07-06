@@ -1,8 +1,10 @@
 package com.titos.flygrocer
 
 import android.annotation.SuppressLint
+import android.text.InputType.TYPE_NULL
 import android.view.MenuItem
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -32,7 +34,7 @@ class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
             val tvItemName = containerView.findViewById<TextView>(R.id.tvItemName)
             val tvCompanyName = containerView.findViewById<TextView>(R.id.tvCompanyName)
             val tvItemPrice = containerView.findViewById<TextView>(R.id.tvItemPrice)
-            val editTextQty = containerView.findViewById<EditText>(R.id.itemQty)
+            val editTextQty = containerView.findViewById<TextView>(R.id.itemQty)
             val threeDots = containerView.findViewById<ImageButton>(R.id.moreOptionsMenu)
             var unitPrice = 0
             var totalCost = 0
@@ -40,13 +42,14 @@ class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
             //Adding initial quantity of 1
             editTextQty.setText(itemQty)
 
+
             productRef.child(barcode).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    val initialTotal = tvTotal.text.toString().split(" ").last().toInt()
+
                     val url = p0.child("URL").value.toString()
                     val companyName = p0.child("Brand").value.toString()
                     val itemName = p0.child("name").value.toString()

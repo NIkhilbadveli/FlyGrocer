@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.titos.flygrocer.OrderDetailsItem
+import com.titos.flygrocer.ProgressDialog
 import com.titos.flygrocer.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -43,6 +44,10 @@ class OrderDetailsFragment : Fragment() {
             adapter = groupAdapter
         }
 
+        val pd = ProgressDialog.progressDialog(requireContext())
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Please wait..."
+        pd.setCanceledOnTouchOutside(false)
+        pd.show()
         orderRef.child("$cityName/$orderNumber").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
@@ -56,6 +61,7 @@ class OrderDetailsFragment : Fragment() {
                     ratingBar.rating = p0.child("orderRating").value.toString().toFloat()
                 if (p0.child("orderReview").exists())
                     etOrderReview.setText(p0.child("orderReview").value.toString())
+                pd.dismiss()
             }
 
         })

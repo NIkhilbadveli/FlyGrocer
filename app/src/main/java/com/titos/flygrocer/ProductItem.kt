@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.media.Image
 import android.view.View
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -30,9 +31,10 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
             val addToBagButton = containerView.findViewById<Button>(R.id.addToCartButton)
             val plusMinusContainer = containerView.findViewById<LinearLayout>(R.id.plusMinusContainer)
             val tvItemPrice = containerView.findViewById<TextView>(R.id.tvItemPrice)
-            val editTextQty = containerView.findViewById<EditText>(R.id.itemQty)
+            val editTextQty = containerView.findViewById<TextView>(R.id.itemQty)
 
             editTextQty.setText(itemQuantity)
+
 
             //Setting visibilities
             if (presentinBag) {
@@ -60,8 +62,6 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
                 addedTime = simpleDateFormat.format(Date())
                 userRef.child("bagItems").child(addedTime).child("barcode").setValue(barcode)
                 userRef.child("bagItems").child(addedTime).child("qty").setValue(1)
-                /*plusMinusContainer.visibility = View.VISIBLE
-                addToBagButton.visibility = View.GONE*/
                 presentinBag = true
                 notifyChanged()
             }
@@ -75,6 +75,11 @@ val onItemClick: ((ProductItem)-> Unit), var presentinBag: Boolean): Item() {
                     //tvItemPrice.text = "\u20B9 ${(updatedQty*itemPrice.toInt())}"
                     userRef.child("bagItems").child(addedTime).child("qty").setValue(updatedQty)
                     itemQuantity = updatedQty.toString()
+                    notifyChanged()
+                }
+                else if (currentQty==1){
+                    userRef.child("bagItems").child(addedTime).removeValue()
+                    presentinBag = false
                     notifyChanged()
                 }
             }

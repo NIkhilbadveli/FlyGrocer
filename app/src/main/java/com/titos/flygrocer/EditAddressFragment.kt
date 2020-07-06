@@ -31,6 +31,7 @@ class EditAddressFragment : Fragment() {
         val etLine2 = layoutView.findViewById<EditText>(R.id.etLine2)
         val etPincode = layoutView.findViewById<EditText>(R.id.etPincode)
         val etLandMark = layoutView.findViewById<EditText>(R.id.etLandMark)
+        val btn = layoutView.findViewById<Button>(R.id.addAddressButton)
 
         var addressId = 1
         userRef.child("addresses").addListenerForSingleValueEvent(object : ValueEventListener{
@@ -46,27 +47,12 @@ class EditAddressFragment : Fragment() {
 
         })
 
-        val btn = layoutView.findViewById<Button>(R.id.addAddressButton)
-        btn.setOnClickListener {
-            if (etFullName.text.isNotEmpty() && etMobileNumber.text.isNotEmpty() && etLine1.text.isNotEmpty() && etPincode.text.isNotEmpty()){
-                userRef.child("addresses").child(addressId.toString()).child("name").setValue(etFullName.text.toString())
-                userRef.child("addresses").child(addressId.toString()).child("mobileNumber").setValue(etMobileNumber.text.toString())
-                userRef.child("addresses").child(addressId.toString()).child("pincode").setValue(etPincode.text.toString())
-                userRef.child("addresses").child(addressId.toString()).child("line1").setValue(etLine1.text.toString())
-                userRef.child("addresses").child(addressId.toString()).child("line2").setValue(etLine2.text.toString())
-                userRef.child("addresses").child(addressId.toString()).child("landmark").setValue(etLandMark.text.toString())
-                Toast.makeText(requireContext(),"Address updated in database", Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
-            }
-            else
-                Toast.makeText(requireContext(),"Please enter all the required fields", Toast.LENGTH_SHORT).show()
-        }
-
         //If edit button is clicked in any one of the already existing addresses
         val id = arguments?.getInt("addressId")
+        var editing = false
         if (id != null){
-            addressId = id
             btn.text = "Save"
+            editing = true
             userRef.child("addresses").child(id.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -82,6 +68,35 @@ class EditAddressFragment : Fragment() {
                 }
 
             })
+        }
+
+        btn.setOnClickListener {
+            if (etFullName.text.isNotEmpty() && etMobileNumber.text.isNotEmpty()
+                && etLine1.text.isNotEmpty() && etPincode.text.isNotEmpty() && !editing){
+
+                userRef.child("addresses/$addressId").child("name").setValue(etFullName.text.toString())
+                userRef.child("addresses/$addressId").child("mobileNumber").setValue(etMobileNumber.text.toString())
+                userRef.child("addresses/$addressId").child("pincode").setValue(etPincode.text.toString())
+                userRef.child("addresses/$addressId").child("line1").setValue(etLine1.text.toString())
+                userRef.child("addresses/$addressId").child("line2").setValue(etLine2.text.toString())
+                userRef.child("addresses/$addressId").child("landmark").setValue(etLandMark.text.toString())
+                Toast.makeText(requireContext(),"Address added in database", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            }
+            else if (etFullName.text.isNotEmpty() && etMobileNumber.text.isNotEmpty()
+                && etLine1.text.isNotEmpty() && etPincode.text.isNotEmpty() && editing){
+
+                userRef.child("addresses/$id").child("name").setValue(etFullName.text.toString())
+                userRef.child("addresses/$id").child("mobileNumber").setValue(etMobileNumber.text.toString())
+                userRef.child("addresses/$id").child("pincode").setValue(etPincode.text.toString())
+                userRef.child("addresses/$id").child("line1").setValue(etLine1.text.toString())
+                userRef.child("addresses/$id").child("line2").setValue(etLine2.text.toString())
+                userRef.child("addresses/$id").child("landmark").setValue(etLandMark.text.toString())
+                Toast.makeText(requireContext(),"Address updated in database", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            }
+            else
+                Toast.makeText(requireContext(),"Please enter all the required fields", Toast.LENGTH_SHORT).show()
         }
 
         return layoutView

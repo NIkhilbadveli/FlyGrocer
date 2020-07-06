@@ -30,6 +30,10 @@ class RewardsFragment : Fragment() {
         val tvReferralCode = layoutView.findViewById<TextView>(R.id.tvReferralCode)
         val tvPointsRupees = layoutView.findViewById<TextView>(R.id.tvPointsRupees)
 
+        val pd = ProgressDialog.progressDialog(requireContext())
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Please wait..."
+        pd.setCanceledOnTouchOutside(false)
+        pd.show()
         userRef.child("rewardPoints").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
@@ -40,6 +44,7 @@ class RewardsFragment : Fragment() {
                     val points = p0.value.toString().toInt()
                     val rupees = points/5
                     tvPointsRupees.text = "$points Points = ₹ $rupees"
+                    pd.dismiss()
                 }
             }
         })

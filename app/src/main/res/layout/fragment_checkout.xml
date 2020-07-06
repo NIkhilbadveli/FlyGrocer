@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Add New address"
         android:textColor="#00f"
-        android:drawableStart="@drawable/ic_add_black_24dp"
+        android:drawableStart="@drawable/ic_add_blue_24dp"
         android:drawablePadding="@dimen/defalutPadding"
         android:textSize="16sp"
         android:layout_margin="@dimen/defalutMargin" />

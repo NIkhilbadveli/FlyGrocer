@@ -1,6 +1,7 @@
 package com.titos.flygrocer
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -27,11 +28,14 @@ import com.xwray.groupie.GroupieViewHolder
 
 class BagFragment : Fragment() {
     private lateinit var tvTotal: TextView
+    private lateinit var pd : Dialog
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val layoutView =  inflater.inflate(R.layout.fragment_bag, container, false)
 
         tvTotal = layoutView.findViewById<TextView>(R.id.totalAmount)
+        pd = ProgressDialog.progressDialog(requireContext())
         val rvProductList = layoutView.findViewById<RecyclerView>(R.id.rvBagList)
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -59,6 +63,9 @@ class BagFragment : Fragment() {
 
         val barcodeList = ArrayList<String>()
         val qtyList = ArrayList<String>()
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Please wait..."
+        pd.setCanceledOnTouchOutside(false)
+        pd.show()
         userRef.child("bagItems").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -78,8 +85,10 @@ class BagFragment : Fragment() {
                     bundle.putStringArrayList("qtyList", qtyList)
                     updateTvTotal(barcodeList, qtyList)
                 }
-                else
+                else{
                     layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
+                    pd.dismiss()
+                }
             }
         })
 
@@ -101,6 +110,7 @@ class BagFragment : Fragment() {
                     }
                 }
                 tvTotal.text = "\u20B9 $total"
+                pd.dismiss()
             }
         })
     }

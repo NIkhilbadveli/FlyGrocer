@@ -1,9 +1,11 @@
 package com.titos.flygrocer
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,7 +30,7 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var onItemClick: (ProductItem)->Unit
     private var productList = ArrayList<ProductItem>()
     private lateinit var groupAdapter: GroupAdapter<GroupieViewHolder>
-
+    private lateinit var pd : Dialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +40,7 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
         val dbRef = FirebaseDatabase.getInstance().reference.child("productData")
         val rvProductList = layoutView.findViewById<RecyclerView>(R.id.rvProductList)
         groupAdapter = GroupAdapter<GroupieViewHolder>()
+        pd = ProgressDialog.progressDialog(requireContext())
 
         rvProductList.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -61,6 +64,9 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
             findNavController().navigate(R.id.action_shopFragment_to_productDetailsFragment, bundle)
         }
 
+        pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Please wait..."
+        pd.setCanceledOnTouchOutside(false)
+        pd.show()
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
@@ -122,6 +128,7 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
                         .itemQuantity = timeStamp.child("qty").value.toString()
                 }
                 groupAdapter.addAll(productList)
+                pd.dismiss()
             }
         })
     }
