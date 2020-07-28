@@ -6,15 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-<!--    <ImageView
-        android:id="@+id/profile_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_profile_bg"
-        android:scaleType="centerCrop"
-        android:contentDescription="Profile Background"/>-->
-
     <agency.tango.android.avatarview.views.AvatarView
         android:id="@+id/profileAvatar"
         android:layout_width="130dp"
@@ -54,16 +45,6 @@
                 android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="40dp"/>
-
-            <TextView
-                android:id="@+id/tvCityName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Proddatur"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"/>
 
             <TextView
                 android:id="@+id/tvMobileNumber"

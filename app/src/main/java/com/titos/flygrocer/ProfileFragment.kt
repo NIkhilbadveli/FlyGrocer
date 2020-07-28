@@ -32,11 +32,19 @@ class ProfileFragment : Fragment() {
         val rvProfile = layoutView.findViewById<RecyclerView>(R.id.rvProfile)
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
-        val sharedPref = activity?.getSharedPreferences("userData", Context.MODE_PRIVATE)!!
-        val userName = sharedPref.getString("userName", "User Name")
-        layoutView.findViewById<TextView>(R.id.tvUserName).text = userName
-        layoutView.findViewById<TextView>(R.id.tvCityName).text = sharedPref.getString("cityName", "Default City")
-        layoutView.findViewById<TextView>(R.id.tvMobileNumber).text = "+91 "+ sharedPref.getString("phoneNumber", "+91 1111122222")
+        var userName = "UserName"
+        if(FirebaseAuth.getInstance().currentUser!!.displayName!=null) {
+            userName = FirebaseAuth.getInstance().currentUser!!.displayName!!
+            layoutView.findViewById<TextView>(R.id.tvUserName).text = userName
+        }
+        else layoutView.findViewById<TextView>(R.id.tvUserName).visibility = View.GONE
+
+        var phoneNumber = "1111122222"
+        if(FirebaseAuth.getInstance().currentUser!!.phoneNumber!=null) {
+            phoneNumber = FirebaseAuth.getInstance().currentUser!!.phoneNumber!!
+            layoutView.findViewById<TextView>(R.id.tvMobileNumber).text = phoneNumber
+        }
+        else layoutView.findViewById<TextView>(R.id.tvMobileNumber).visibility = View.GONE
 
         val avatarView = layoutView.findViewById<AvatarView>(R.id.profileAvatar)
         GlideLoader().loadImage(avatarView,"https://dummy",userName)

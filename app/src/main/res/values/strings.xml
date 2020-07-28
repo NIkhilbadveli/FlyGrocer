@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">FlyGrocer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="terms_and_conditions">By creating an account you agree with the
+        <a href="https://www.yourkirana.com/terms-and-conditions/" target="_top">Terms of Use</a> and the
+        <a href="https://www.yourkirana.com/privacy-policy/" target="_top">Privacy policy</a>
+    </string>
 </resources>

@@ -39,7 +39,7 @@
                     android:text="Pending"
                     android:textSize="20sp"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/red"
+                    android:textColor="@color/colorPrimary"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     />
