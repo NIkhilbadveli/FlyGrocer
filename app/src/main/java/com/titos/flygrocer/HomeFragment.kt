@@ -45,24 +45,7 @@ class HomeFragment : Fragment() {
         val imageSlider = layoutView.findViewById<ImageSlider>(R.id.bannerSlider)
         imageSlider.setImageList(imageList)
 
-        layoutView.findViewById<CardView>(R.id.superGrocerContainer).setOnClickListener {
 
-            findNavController().navigate(R.id.action_homeFragment_to_shopFragment)
-        }
-
-        layoutView.findViewById<CardView>(R.id.foodGrocerContainer).setOnClickListener {
-
-            findNavController().navigate(R.id.action_homeFragment_to_shopFragment)
-        }
-
-        layoutView.findViewById<CardView>(R.id.greenGrocerContainer).setOnClickListener {
-
-            findNavController().navigate(R.id.action_homeFragment_to_shopFragment)
-        }
-
-        layoutView.findViewById<Button>(R.id.uploadButton).setOnClickListener {
-            openCameraIntent()
-        }
 
         return layoutView
     }
