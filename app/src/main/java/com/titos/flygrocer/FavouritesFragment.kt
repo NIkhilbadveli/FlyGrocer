@@ -6,19 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.snapshot.Index
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
@@ -29,7 +26,6 @@ class FavouritesFragment : Fragment() {
     private lateinit var pd : Dialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
 
         val layoutView =  inflater.inflate(R.layout.fragment_favourites, container, false)
 
@@ -51,11 +47,20 @@ class FavouritesFragment : Fragment() {
             bundle.putStringArrayList("list",str)
 
             findNavController().navigate(R.id.action_favouritesFragment_to_productDetailsFragment, bundle)
+            productList.clear()
+            groupAdapter.clear()
         }
 
         rvFav.apply {
-             layoutManager = GridLayoutManager(requireContext(),2)
-             adapter = groupAdapter
+            layoutManager = GridLayoutManager(requireContext(),2)
+            adapter = groupAdapter
+        }
+
+
+
+
+        val showEmptyContainer = {
+            layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
         }
 
         pd.findViewById<TextView>(R.id.login_tv_dialog).text = "Please wait..."
@@ -69,12 +74,15 @@ class FavouritesFragment : Fragment() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.hasChildren()){
                     for(timeStamp in p0.children){
-                         productList.add(FavItem(timeStamp.value.toString(),false, "00-00-0000 00:00:00", onItemClick))
+                        productList.add(FavItem(timeStamp.value.toString(),false,
+                            timeStamp.key!!,groupAdapter, onItemClick, showEmptyContainer))
                     }
                     setData()
                 }
-                else
+                else{
                     layoutView.findViewById<LinearLayout>(R.id.emptyContainer).visibility = View.VISIBLE
+                    pd.dismiss()
+                }
             }
         })
 
@@ -91,10 +99,12 @@ class FavouritesFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                for(timeStamp in p0.children){
-                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }?.addedTime = timeStamp.key!!
-                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }?.presentinBag = true
+                for (timeStamp in p0.children)
+                {
+                    productList.firstOrNull {item-> item.barcode == timeStamp.child("barcode").value.toString() }?.bagAddedTime = timeStamp.key!!
+                    productList.firstOrNull { item-> item.barcode == timeStamp.child("barcode").value.toString() }?.presentinBag = true
                 }
+
                 groupAdapter.addAll(productList)
                 pd.dismiss()
             }

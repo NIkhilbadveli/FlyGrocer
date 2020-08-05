@@ -3,6 +3,10 @@ package com.titos.flygrocer
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
 import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
@@ -37,7 +41,7 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View? {
         val layoutView = inflater.inflate(R.layout.fragment_shop, container, false)
 
-        val dbRef = FirebaseDatabase.getInstance().reference.child("productData")
+        val dbRef = FirebaseDatabase.getInstance().reference.child("productData/foodGrocer")
         val rvProductList = layoutView.findViewById<RecyclerView>(R.id.rvProductList)
         groupAdapter = GroupAdapter<GroupieViewHolder>()
         pd = ProgressDialog.progressDialog(requireContext())
@@ -118,14 +122,14 @@ class ShopFragment : Fragment(), SearchView.OnQueryTextListener {
 
             override fun onDataChange(p0: DataSnapshot) {
                 for(timeStamp in p0.children){
-                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }
-                        .presentinBag = true
+                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }
+                        ?.presentinBag  = true
 
-                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }
-                        .addedTime = timeStamp.key!!
+                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }
+                        ?.addedTime  = timeStamp.key!!
 
-                    productList.first { it.barcode == timeStamp.child("barcode").value.toString() }
-                        .itemQuantity = timeStamp.child("qty").value.toString()
+                    productList.firstOrNull { it.barcode == timeStamp.child("barcode").value.toString() }
+                        ?.itemQuantity  = timeStamp.child("qty").value.toString()
                 }
                 groupAdapter.addAll(productList)
                 pd.dismiss()

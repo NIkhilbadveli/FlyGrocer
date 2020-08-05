@@ -96,7 +96,7 @@ class BagFragment : Fragment() {
     }
 
     private fun updateTvTotal(barcodeList: ArrayList<String>, qtyList: ArrayList<String>) {
-        FirebaseDatabase.getInstance().reference.child("/productData").addListenerForSingleValueEvent(object : ValueEventListener{
+        FirebaseDatabase.getInstance().reference.child("/productData/foodGrocer").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
             }

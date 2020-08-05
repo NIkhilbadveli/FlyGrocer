@@ -5,14 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Favourites"
-        android:textColor="@color/black"
-        android:layout_margin="@dimen/defalutMargin"
-        android:textSize="20sp"
-        android:id="@+id/tvFav"/>
 
     <LinearLayout
         android:id="@+id/emptyContainer"
@@ -42,10 +34,10 @@
         android:id="@+id/rvFavourites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvFav"
+        android:layout_below="@id/emptyContainer"
         android:layout_gravity="center"
         android:background="@color/white"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         tools:listitem="@layout/item_fav" />
 
 </RelativeLayout>

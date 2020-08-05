@@ -29,7 +29,7 @@ class BagItem(val addedTime: String, val barcode: String, var itemQty: String,
             val ivProduct = containerView.findViewById<ImageView>(R.id.ivProduct)
             val user = FirebaseAuth.getInstance().currentUser!!
             val userRef = FirebaseDatabase.getInstance().reference.child("/userData/${user.uid}")
-            val productRef = FirebaseDatabase.getInstance().reference.child("/productData")
+            val productRef = FirebaseDatabase.getInstance().reference.child("/productData/foodGrocer")
 
             val tvItemName = containerView.findViewById<TextView>(R.id.tvItemName)
             val tvCompanyName = containerView.findViewById<TextView>(R.id.tvCompanyName)
